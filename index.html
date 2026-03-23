@@ -5,403 +5,846 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>2026년 정부 R&D 예산 현황</title>
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#fff;--bg2:#f5f5f3;--bg3:#eeecea;
+  --text:#1a1a18;--text2:#5f5e5a;--text3:#888780;
+  --border:rgba(0,0,0,0.1);--border2:rgba(0,0,0,0.2);
+  --r-md:8px;--r-lg:12px;
+}
+@media(prefers-color-scheme:dark){
+  :root{
+    --bg:#1a1a18;--bg2:#232320;--bg3:#2a2a27;
+    --text:#f0efe9;--text2:#b4b2a9;--text3:#888780;
+    --border:rgba(255,255,255,0.1);--border2:rgba(255,255,255,0.2);
+  }
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;background:var(--bg3);color:var(--text);min-height:100vh}
+a{color:inherit;text-decoration:none}
 
-  :root {
-    --bg: #ffffff;
-    --bg2: #f5f5f3;
-    --bg3: #eeede8;
-    --text: #1a1a18;
-    --text2: #5f5e5a;
-    --text3: #888780;
-    --border: rgba(0,0,0,0.1);
-    --border2: rgba(0,0,0,0.18);
-    --radius-md: 8px;
-    --radius-lg: 12px;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --bg: #1a1a18;
-      --bg2: #232320;
-      --bg3: #2c2c2a;
-      --text: #f0efe9;
-      --text2: #b4b2a9;
-      --text3: #888780;
-      --border: rgba(255,255,255,0.1);
-      --border2: rgba(255,255,255,0.18);
-    }
-  }
+/* NAV */
+nav{background:var(--bg);border-bottom:0.5px solid var(--border2);position:sticky;top:0;z-index:100}
+.nav-inner{max-width:960px;margin:0 auto;display:flex;align-items:center;gap:0;overflow-x:auto;scrollbar-width:none}
+.nav-inner::-webkit-scrollbar{display:none}
+.nav-title{font-size:13px;font-weight:500;color:var(--text);padding:0 16px;white-space:nowrap;border-right:0.5px solid var(--border)}
+.nav-tab{font-size:12px;color:var(--text3);padding:14px 14px;white-space:nowrap;cursor:pointer;border-bottom:2px solid transparent;transition:color 0.15s,border-color 0.15s}
+.nav-tab:hover{color:var(--text)}
+.nav-tab.active{color:var(--text);border-bottom-color:var(--text)}
 
-  body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
-    background: var(--bg3);
-    color: var(--text);
-    min-height: 100vh;
-    padding: 2rem 1rem;
-  }
+/* LAYOUT */
+.page{max-width:960px;margin:0 auto;padding:1.5rem 1rem 3rem}
+.section{display:none}
+.section.active{display:block}
+.section-head{margin-bottom:1.25rem}
+.section-head h2{font-size:18px;font-weight:500;color:var(--text);margin-bottom:4px}
+.section-head p{font-size:13px;color:var(--text3)}
 
-  .page-header {
-    max-width: 900px;
-    margin: 0 auto 1.5rem;
-  }
-  .page-header h1 {
-    font-size: 22px;
-    font-weight: 500;
-    color: var(--text);
-    margin-bottom: 4px;
-  }
-  .page-header p {
-    font-size: 13px;
-    color: var(--text3);
-  }
+/* CARDS */
+.stat-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.25rem}
+@media(max-width:600px){.stat-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.stat{background:var(--bg);border-radius:var(--r-lg);border:0.5px solid var(--border);padding:14px 16px}
+.stat-label{font-size:11px;color:var(--text3);margin-bottom:5px}
+.stat-val{font-size:22px;font-weight:500;line-height:1.2}
+.stat-sub{font-size:11px;color:var(--text3);margin-top:3px}
 
-  .container { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; gap: 14px; }
+/* PANEL */
+.panel{background:var(--bg);border-radius:var(--r-lg);border:0.5px solid var(--border);padding:18px 20px;margin-bottom:14px}
+.panel-title{font-size:12px;font-weight:500;color:var(--text3);letter-spacing:0.03em;margin-bottom:14px}
+.two-col{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px;margin-bottom:14px}
+@media(max-width:640px){.two-col{grid-template-columns:1fr}}
 
-  .summary-grid {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0,1fr));
-    gap: 10px;
-  }
-  @media (max-width: 600px) {
-    .summary-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  }
+/* BARS */
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.bl{font-size:12px;color:var(--text);width:80px;flex-shrink:0;text-align:right;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bl-left{font-size:12px;color:var(--text);width:100px;flex-shrink:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bt{flex:1;height:13px;background:var(--bg3);border-radius:3px;overflow:hidden}
+.bf{height:100%;border-radius:3px;transition:width 0.4s}
+.bv{font-size:11px;color:var(--text3);min-width:44px;text-align:right;flex-shrink:0}
 
-  .stat {
-    background: var(--bg);
-    border-radius: var(--radius-lg);
-    border: 0.5px solid var(--border);
-    padding: 14px 16px;
-  }
-  .stat-label { font-size: 11px; color: var(--text3); margin-bottom: 5px; }
-  .stat-val { font-size: 22px; font-weight: 500; color: var(--text); line-height: 1.2; }
-  .stat-sub { font-size: 11px; color: var(--text3); margin-top: 3px; }
+/* TREEMAP */
+.treemap-wrap{position:relative;width:100%;height:200px;border-radius:var(--r-md);overflow:hidden}
+.tc{position:absolute;display:flex;flex-direction:column;justify-content:center;align-items:center;overflow:hidden}
+.tn{font-size:11px;font-weight:500;text-align:center;line-height:1.3;padding:2px 4px}
+.ta{font-size:10px;text-align:center;opacity:0.85}
 
-  .panel {
-    background: var(--bg);
-    border-radius: var(--radius-lg);
-    border: 0.5px solid var(--border);
-    padding: 18px 20px;
-  }
+/* TABLE */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{font-size:11px;font-weight:500;color:var(--text3);text-align:left;padding:8px 10px;border-bottom:0.5px solid var(--border2);white-space:nowrap}
+td{padding:8px 10px;border-bottom:0.5px solid var(--border);color:var(--text);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--bg2)}
+.badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;white-space:nowrap;margin:1px}
+.num{text-align:right;font-variant-numeric:tabular-nums}
 
-  .section-label {
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--text3);
-    letter-spacing: 0.03em;
-    margin-bottom: 14px;
-  }
+/* SEARCH */
+.search-row{display:flex;gap:10px;margin-bottom:14px;flex-wrap:wrap}
+.search-row input,.search-row select{font-size:13px;padding:8px 12px;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--r-md);color:var(--text);outline:none}
+.search-row input{flex:1;min-width:180px}
+.search-row select{flex-shrink:0}
+.tbl-info{font-size:12px;color:var(--text3);margin-bottom:8px}
+.pg{display:flex;gap:6px;justify-content:center;margin-top:12px;flex-wrap:wrap}
+.pg button{font-size:12px;padding:5px 10px;background:var(--bg);border:0.5px solid var(--border2);border-radius:var(--r-md);color:var(--text);cursor:pointer}
+.pg button.cur{background:var(--text);color:var(--bg)}
+.pg button:hover:not(.cur){background:var(--bg2)}
 
-  .two-col {
-    display: grid;
-    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-    gap: 14px;
-  }
-  @media (max-width: 640px) {
-    .two-col { grid-template-columns: 1fr; }
-  }
+/* 3D MAP */
+#canvas3d{width:100%;border-radius:var(--r-lg);display:block;cursor:grab}
+#canvas3d:active{cursor:grabbing}
+.legend3d{display:flex;flex-wrap:wrap;gap:10px;margin-top:12px;font-size:11px;color:var(--text3)}
+.legend3d span{display:flex;align-items:center;gap:5px}
+.leg-box{width:12px;height:12px;border-radius:2px;flex-shrink:0}
 
-  .bar-row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 8px;
-  }
-  .bar-label {
-    font-size: 12px;
-    color: var(--text);
-    width: 72px;
-    flex-shrink: 0;
-    text-align: right;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  .bar-track {
-    flex: 1;
-    height: 13px;
-    background: var(--bg3);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .bar-fill { height: 100%; border-radius: 3px; }
-  .bar-val {
-    font-size: 11px;
-    color: var(--text3);
-    min-width: 40px;
-    text-align: right;
-    flex-shrink: 0;
-  }
+/* PILLS */
+.pill-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.pill{font-size:11px;padding:4px 10px;border-radius:10px;cursor:pointer;border:0.5px solid var(--border2);color:var(--text2);background:var(--bg);transition:all 0.15s}
+.pill:hover,.pill.on{background:var(--text);color:var(--bg);border-color:var(--text)}
 
-  .treemap-wrap {
-    position: relative;
-    width: 100%;
-    height: 200px;
-    border-radius: var(--radius-md);
-    overflow: hidden;
-  }
-  .treemap-cell {
-    position: absolute;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
-    cursor: default;
-  }
-  .treemap-name {
-    font-size: 11px;
-    font-weight: 500;
-    text-align: center;
-    line-height: 1.3;
-    padding: 2px 4px;
-  }
-  .treemap-amt {
-    font-size: 10px;
-    text-align: center;
-    opacity: 0.85;
-  }
-
-  .policy-grid {
-    display: grid;
-    grid-template-columns: minmax(0,1fr) minmax(0,1fr);
-    gap: 6px 24px;
-  }
-  @media (max-width: 540px) {
-    .policy-grid { grid-template-columns: 1fr; }
-  }
-
-  footer {
-    max-width: 900px;
-    margin: 1rem auto 0;
-    font-size: 11px;
-    color: var(--text3);
-    text-align: center;
-  }
+footer{max-width:960px;margin:0 auto;padding:0 1rem 2rem;font-size:11px;color:var(--text3);text-align:center}
 </style>
 </head>
 <body>
 
-<div class="page-header">
-  <h1>2026년 정부 R&D 예산 현황</h1>
-  <p>국가연구개발사업 세부사업 기준 · 과학기술혁신본부 · 단위: 백만원</p>
-</div>
-
-<div class="container">
-
-  <div class="summary-grid">
-    <div class="stat">
-      <div class="stat-label">총 예산</div>
-      <div class="stat-val">30.3조</div>
-      <div class="stat-sub">백만원 기준</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">세부사업 수</div>
-      <div class="stat-val">1,238개</div>
-      <div class="stat-sub">부처별 합산</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">국가전략기술 투자</div>
-      <div class="stat-val">9.4조</div>
-      <div class="stat-sub">12개 분야</div>
-    </div>
-    <div class="stat">
-      <div class="stat-label">참여 부처</div>
-      <div class="stat-val">25개</div>
-      <div class="stat-sub">10개 전문위원회</div>
-    </div>
+<nav>
+  <div class="nav-inner">
+    <span class="nav-title">2026 R&D 예산</span>
+    <button class="nav-tab active" onclick="showSection('s0',this)">요약</button>
+    <button class="nav-tab" onclick="showSection('s1',this)">10대 핵심투자분야</button>
+    <button class="nav-tab" onclick="showSection('s2',this)">국가전략기술</button>
+    <button class="nav-tab" onclick="showSection('s3',this)">정책분야</button>
+    <button class="nav-tab" onclick="showSection('s4',this)">기타사업</button>
+    <button class="nav-tab" onclick="showSection('s5',this)">부처별 현황</button>
+    <button class="nav-tab" onclick="showSection('s6',this)">세부사업 목록</button>
+    <button class="nav-tab" onclick="showSection('s7',this)">3D 맵</button>
   </div>
+</nav>
 
+<div class="page">
+
+<!-- S0: 요약 -->
+<div class="section active" id="s0">
+  <div class="section-head">
+    <h2>2026년 정부 R&D 예산 현황</h2>
+    <p>국가연구개발사업 세부사업 기준 · 과학기술혁신본부 · 단위: 백만원</p>
+  </div>
+  <div class="stat-grid">
+    <div class="stat"><div class="stat-label">총 예산</div><div class="stat-val">30.3조</div><div class="stat-sub">백만원 기준</div></div>
+    <div class="stat"><div class="stat-label">세부사업 수</div><div class="stat-val">1,238개</div><div class="stat-sub">25개 부처</div></div>
+    <div class="stat"><div class="stat-label">국가전략기술</div><div class="stat-val">9.4조</div><div class="stat-sub">12개 분야</div></div>
+    <div class="stat"><div class="stat-label">전문위원회</div><div class="stat-val">10개</div><div class="stat-sub">분야별 심의</div></div>
+  </div>
   <div class="two-col">
-    <div class="panel">
-      <div class="section-label">부처별 예산</div>
-      <div id="dept-bars"></div>
-    </div>
-    <div class="panel">
-      <div class="section-label">전문위원회별 예산</div>
-      <div id="com-bars"></div>
-    </div>
+    <div class="panel"><div class="panel-title">10대 핵심투자분야</div><div id="sum-fields"></div></div>
+    <div class="panel"><div class="panel-title">부처별 예산 (상위 10)</div><div id="sum-depts"></div></div>
   </div>
-
   <div class="panel">
-    <div class="section-label">국가전략기술 12개 분야</div>
-    <div class="treemap-wrap" id="treemap"></div>
+    <div class="panel-title">국가전략기술 12개 분야</div>
+    <div class="treemap-wrap" id="sum-treemap"></div>
   </div>
-
-  <div class="panel">
-    <div class="section-label">정책분야별 예산</div>
-    <div class="policy-grid" id="policy-bars"></div>
-  </div>
-
 </div>
 
+<!-- S1: 10대 핵심투자분야 -->
+<div class="section" id="s1">
+  <div class="section-head">
+    <h2>10대 핵심투자분야</h2>
+    <p>전문위원회 기준 분야별 예산 현황 · 총 30.3조원</p>
+  </div>
+  <div class="panel">
+    <div class="panel-title">분야별 예산 규모</div>
+    <div class="treemap-wrap" style="height:240px" id="f10-treemap"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">분야별 상세</div>
+    <div id="f10-bars"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">분야별 목록</div>
+    <div class="tbl-wrap"><table id="f10-table">
+      <thead><tr><th>#</th><th>핵심분야</th><th class="num">예산 (백만원)</th><th class="num">비율</th><th class="num">세부사업 수</th></tr></thead>
+      <tbody id="f10-tbody"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- S2: 국가전략기술 -->
+<div class="section" id="s2">
+  <div class="section-head">
+    <h2>국가전략기술 12개 분야</h2>
+    <p>전략기술별 투자 현황 · 전략기술 해당 사업 590개 · 총 9.4조원</p>
+  </div>
+  <div class="panel">
+    <div class="panel-title">전략기술별 예산 트리맵</div>
+    <div class="treemap-wrap" style="height:220px" id="strat-treemap"></div>
+  </div>
+  <div class="two-col">
+    <div class="panel"><div class="panel-title">전략기술별 예산</div><div id="strat-bars"></div></div>
+    <div class="panel"><div class="panel-title">전략기술 × 주요 부처</div><div id="strat-dept"></div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">전략기술별 현황</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>전략기술</th><th class="num">예산 (백만원)</th><th class="num">점유율</th><th class="num">사업 수</th></tr></thead>
+      <tbody id="strat-tbody"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- S3: 정책분야 -->
+<div class="section" id="s3">
+  <div class="section-head">
+    <h2>정책분야별 예산</h2>
+    <p>8개 정책분야 투자 현황 (중복 포함)</p>
+  </div>
+  <div class="two-col">
+    <div class="panel"><div class="panel-title">정책분야별 예산 규모</div><div id="pol-bars"></div></div>
+    <div class="panel" style="display:flex;flex-direction:column;justify-content:center">
+      <div class="panel-title">정책분야 비율</div>
+      <div style="position:relative;width:100%;height:220px"><canvas id="pol-chart"></canvas></div>
+      <div id="pol-legend" style="display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;font-size:11px;color:var(--text3)"></div>
+    </div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">정책분야별 현황</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>정책분야</th><th class="num">예산 (백만원)</th><th class="num">점유율</th><th class="num">사업 수</th></tr></thead>
+      <tbody id="pol-tbody"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- S4: 기타사업 -->
+<div class="section" id="s4">
+  <div class="section-head">
+    <h2>기타사업</h2>
+    <p>국가전략기술 미해당 사업 · 648개 · 약 16.0조원</p>
+  </div>
+  <div class="stat-grid" style="grid-template-columns:repeat(3,minmax(0,1fr))">
+    <div class="stat"><div class="stat-label">기타사업 예산</div><div class="stat-val">16.0조</div><div class="stat-sub">전체의 52.8%</div></div>
+    <div class="stat"><div class="stat-label">사업 수</div><div class="stat-val">648개</div><div class="stat-sub">전체 1,238개 중</div></div>
+    <div class="stat"><div class="stat-label">전문위원회</div><div class="stat-val">10개</div><div class="stat-sub">전 위원회 포함</div></div>
+  </div>
+  <div class="two-col">
+    <div class="panel"><div class="panel-title">전문위별 기타사업 예산</div><div id="other-com-bars"></div></div>
+    <div class="panel"><div class="panel-title">전문위별 사업 수</div><div id="other-com-cnt"></div></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">기타사업 목록 (상위 50개)</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>#</th><th>사업명</th><th>부처</th><th>전문위</th><th class="num">예산 (백만원)</th></tr></thead>
+      <tbody id="other-tbody"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- S5: 부처별 현황 -->
+<div class="section" id="s5">
+  <div class="section-head">
+    <h2>부처별 R&D 예산 현황</h2>
+    <p>25개 부처 · 총 30.3조원</p>
+  </div>
+  <div class="panel">
+    <div class="panel-title">부처별 예산 (전체)</div>
+    <div id="dept-bars-full"></div>
+  </div>
+  <div class="panel">
+    <div class="panel-title">부처별 상세 현황</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr><th>순위</th><th>부처명</th><th class="num">세부사업</th><th class="num">총 예산 (백만원)</th><th class="num">점유율</th><th>주요 전략기술</th></tr></thead>
+      <tbody id="dept-tbody"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- S6: 세부사업 목록 -->
+<div class="section" id="s6">
+  <div class="section-head">
+    <h2>세부사업 목록</h2>
+    <p>전체 1,238개 세부사업</p>
+  </div>
+  <div class="search-row">
+    <input type="text" id="s6-search" placeholder="사업명 검색..." oninput="filterTable()">
+    <select id="s6-dept" onchange="filterTable()"><option value="">전체 부처</option></select>
+    <select id="s6-com" onchange="filterTable()"><option value="">전체 전문위</option></select>
+  </div>
+  <div class="tbl-info" id="s6-info"></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>#</th><th>사업명</th><th>부처</th><th>전문위</th><th class="num">예산 (백만원)</th></tr></thead>
+    <tbody id="s6-tbody"></tbody>
+  </table></div>
+  <div class="pg" id="s6-pg"></div>
+</div>
+
+<!-- S7: 3D 맵 -->
+<div class="section" id="s7">
+  <div class="section-head">
+    <h2>3D 예산 맵</h2>
+    <p>전문위별·전략기술별 예산 규모 · 드래그로 회전</p>
+  </div>
+  <div class="panel" style="padding:12px">
+    <canvas id="canvas3d" height="480"></canvas>
+  </div>
+  <div class="legend3d" id="legend3d"></div>
+</div>
+
+</div><!-- .page -->
 <footer>출처: 2026년 국가연구개발사업 세부·내역사업 현황 (과학기술혁신본부)</footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <script>
-const TEAL   = '#1D9E75';
-const PURPLE = '#534AB7';
-const CORAL  = '#993C1D';
-const AMBER  = '#BA7517';
-const BLUE   = '#185FA5';
-const GREEN  = '#3B6D11';
-const PINK   = '#72243E';
-const GRAY   = '#5F5E5A';
+const DATA = {
+  fields10:[
+    {핵심분야:'첨단소재·제조',사업수:139,예산:6757371},
+    {핵심분야:'기초연구',사업수:55,예산:5839778},
+    {핵심분야:'국방·안보',사업수:75,예산:3866065},
+    {핵심분야:'첨단바이오·의료',사업수:174,예산:2810839},
+    {핵심분야:'에너지·원자력',사업수:148,예산:2696069},
+    {핵심분야:'디지털·AI',사업수:133,예산:2259499},
+    {핵심분야:'우주·항공',사업수:134,예산:1783038},
+    {핵심분야:'양자·반도체',사업수:56,예산:1599943},
+    {핵심분야:'농림·수산·식품',사업수:134,예산:1410357},
+    {핵심분야:'공공·안전·환경',사업수:188,예산:1258033},
+  ],
+  strats:[
+    {name:'인공지능',val:2432410,cnt:267,depts:{과기정통부:1418609,산업부:266796,복지부:136906}},
+    {name:'첨단바이오',val:1621126,cnt:115,depts:{과기정통부:630871,복지부:629644,산업부:182719}},
+    {name:'우주·항공·해양',val:1409514,cnt:109,depts:{우주청:800639,해수부:124493,기상청:122529}},
+    {name:'반도체/디스플레이',val:1168248,cnt:62,depts:{산업부:686375,과기정통부:468890,방사청:12984}},
+    {name:'첨단모빌리티',val:611604,cnt:38,depts:{산업부:392479,국토부:142558,과기정통부:24727}},
+    {name:'첨단로봇·제조',val:483089,cnt:41,depts:{산업부:294007,과기정통부:88262,중기부:26326}},
+    {name:'차세대통신',val:351634,cnt:32,depts:{과기정통부:313745,우주청:20641,해수부:7070}},
+    {name:'수소',val:300634,cnt:27,depts:{기후부:148771,과기정통부:77293,국토부:41203}},
+    {name:'양자',val:300516,cnt:22,depts:{과기정통부:298207,방사청:2310}},
+    {name:'이차전지',val:271788,cnt:38,depts:{산업부:132580,과기정통부:76503,기후부:42540}},
+    {name:'사이버보안',val:251867,cnt:31,depts:{과기정통부:204634,경찰청:14860,개보위:13223}},
+    {name:'차세대원자력',val:233197,cnt:24,depts:{과기정통부:138702,기후부:34795,고방위:31315}},
+  ],
+  policies:[
+    {name:'출연·직할',val:4013688,cnt:341},
+    {name:'국방',val:3866065,cnt:75},
+    {name:'기술사업화',val:3376156,cnt:250},
+    {name:'기초연구',val:3358532,cnt:55},
+    {name:'탄소중립',val:2676784,cnt:148},
+    {name:'재난안전',val:2425900,cnt:188},
+    {name:'인력양성',val:1332753,cnt:133},
+    {name:'지역',val:1199300,cnt:134},
+  ],
+  depts:[
+    {name:'과기정통부',cnt:341,budget:11441229,top:['인공지능','첨단바이오']},
+    {name:'산업부',cnt:162,budget:5275983,top:['반도체/디스플레이','첨단모빌리티']},
+    {name:'방사청',cnt:62,budget:3799290,top:['인공지능','반도체/디스플레이']},
+    {name:'중기부',cnt:15,budget:2102364,top:['첨단로봇·제조','인공지능']},
+    {name:'기후부',cnt:84,budget:1425542,top:['수소','탄소중립']},
+    {name:'복지부',cnt:83,budget:1065191,top:['첨단바이오','인공지능']},
+    {name:'우주청',cnt:49,budget:924763,top:['우주·항공·해양','차세대통신']},
+    {name:'해수부',cnt:106,budget:837825,top:['우주·항공·해양','첨단바이오']},
+    {name:'교육부',cnt:2,budget:622300,top:[]},
+    {name:'농진청',cnt:45,budget:607727,top:['인공지능','첨단로봇·제조']},
+    {name:'국토부',cnt:83,budget:572986,top:['첨단모빌리티','우주·항공·해양']},
+    {name:'농식품부',cnt:24,budget:234805,top:['인공지능','첨단로봇·제조']},
+    {name:'기상청',cnt:15,budget:204119,top:['우주·항공·해양','인공지능']},
+    {name:'질병청',cnt:18,budget:197263,top:['첨단바이오','인공지능']},
+    {name:'식약처',cnt:22,budget:167891,top:['첨단바이오','인공지능']},
+    {name:'문체부',cnt:13,budget:144150,top:['인공지능']},
+    {name:'산림청',cnt:16,budget:136826,top:['인공지능']},
+    {name:'원안위',cnt:14,budget:113170,top:['차세대원자력']},
+    {name:'행안부',cnt:14,budget:101373,top:['인공지능','재난안전']},
+    {name:'해경청',cnt:12,budget:75835,top:['우주·항공·해양']},
+    {name:'경찰청',cnt:17,budget:68212,top:['인공지능','사이버보안']},
+    {name:'소방청',cnt:17,budget:49527,top:['재난안전']},
+    {name:'고방위',cnt:4,budget:31315,top:['차세대원자력']},
+    {name:'국방부',cnt:2,budget:17427,top:['인공지능']},
+    {name:'국가유산청',cnt:2,budget:14011,top:['인공지능']},
+  ],
+  other_com:[
+    {전문위:'기초기반',사업수:44,예산:4729288},
+    {전문위:'기계소재',사업수:90,예산:3140249},
+    {전문위:'국방',사업수:66,예산:3111708},
+    {전문위:'에너지원자력자원',사업수:84,예산:1581095},
+    {전문위:'바이오제조농림수산',사업수:98,예산:1053227},
+    {전문위:'공공해양환경',사업수:125,예산:768570},
+    {전문위:'생명의료',사업수:73,예산:629610},
+    {전문위:'인공지능ICT',사업수:27,예산:549114},
+    {전문위:'우주항공국토',사업수:35,예산:340421},
+    {전문위:'양자반도체',사업수:4,예산:78458},
+  ],
+};
 
-const depts = [
-  {name:'과기정통부', val:11441},
-  {name:'산업부',     val:5276},
-  {name:'방사청',     val:3799},
-  {name:'중기부',     val:2102},
-  {name:'기후부',     val:1426},
-  {name:'복지부',     val:1065},
-  {name:'우주청',     val:925},
-  {name:'해수부',     val:838},
-  {name:'교육부',     val:622},
-  {name:'농진청',     val:608},
-  {name:'국토부',     val:573},
-  {name:'기타',       val:1607},
+const PROJECTS = [
+  {사업명:'개인기초연구(과기정통부)',부처명:'과기정통부',전문위:'기초기반',예산:2265651},
+  {사업명:'소재부품기술개발',부처명:'산업부',전문위:'기계소재',예산:1290947},
+  {사업명:'보라매',부처명:'방사청',전문위:'국방',예산:839876},
+  {사업명:'창업성장기술개발',부처명:'중기부',전문위:'기계소재',예산:786419},
+  {사업명:'패키지핵심기술',부처명:'방사청',전문위:'국방',예산:650853},
+  {사업명:'이공학학술연구기반구축',부처명:'교육부',전문위:'기초기반',예산:620798},
+  {사업명:'중소기업기술혁신개발',부처명:'중기부',전문위:'기계소재',예산:494242},
+  {사업명:'집단연구지원',부처명:'과기정통부',전문위:'기초기반',예산:470581},
+  {사업명:'투융자연계기술개발',부처명:'중기부',전문위:'기계소재',예산:457041},
+  {사업명:'바이오의료기술개발',부처명:'과기정통부',전문위:'생명의료',예산:442976},
+  {사업명:'미래도전국방기술',부처명:'방사청',전문위:'국방',예산:349437},
+  {사업명:'자동차산업기술개발',부처명:'산업부',전문위:'기계소재',예산:339711},
+  {사업명:'국가과학기술연구회연구운영비지원(주요사업비)',부처명:'과기정통부',전문위:'기초기반',예산:333518},
+  {사업명:'신재생에너지핵심기술개발(전력)',부처명:'기후부',전문위:'에너지원자력자원',예산:331913},
+  {사업명:'나노소재기술개발',부처명:'과기정통부',전문위:'양자반도체',예산:330746},
+  {사업명:'개별핵심기술(방사청)',부처명:'방사청',전문위:'국방',예산:301360},
+  {사업명:'산업혁신기반구축',부처명:'산업부',전문위:'기계소재',예산:268484},
+  {사업명:'산업기술국제협력',부처명:'산업부',전문위:'기초기반',예산:232178},
+  {사업명:'기초과학연구원연구운영비지원(주요사업비)',부처명:'과기정통부',전문위:'기초기반',예산:228246},
+  {사업명:'기계장비산업기술개발',부처명:'산업부',전문위:'기계소재',예산:219989},
+  {사업명:'산업혁신인재성장지원',부처명:'산업부',전문위:'기계소재',예산:201395},
+  {사업명:'소재부품산업기술개발기반구축(R&D)',부처명:'산업부',전문위:'기계소재',예산:200457},
+  {사업명:'에너지수요관리핵심기술개발(에특)',부처명:'기후부',전문위:'에너지원자력자원',예산:194829},
+  {사업명:'조선해양산업기술개발사업',부처명:'산업부',전문위:'기계소재',예산:194412},
+  {사업명:'로봇산업기술개발',부처명:'산업부',전문위:'기계소재',예산:173529},
+  {사업명:'연구개발특구육성',부처명:'과기정통부',전문위:'기계소재',예산:167343},
+  {사업명:'K온디바이스AI반도체기술개발',부처명:'산업부',전문위:'양자반도체',예산:166554},
+  {사업명:'수출용신형연구로개발및실증',부처명:'과기정통부',전문위:'에너지원자력자원',예산:155500},
+  {사업명:'한국과학기술연구원연구운영비지원(주요사업비)',부처명:'과기정통부',전문위:'기초기반',예산:154599},
+  {사업명:'정보통신방송혁신인재양성(R&D)',부처명:'과기정통부',전문위:'인공지능ICT',예산:144742},
+  {사업명:'우주핵심기술개발',부처명:'우주청',전문위:'우주항공국토',예산:143010},
+  {사업명:'인공지능반도체선도기술개발',부처명:'과기정통부',전문위:'양자반도체',예산:140012},
+  {사업명:'글로벌R&D협력강화',부처명:'과기정통부',전문위:'기초기반',예산:136826},
+  {사업명:'바이오파운드리구축',부처명:'과기정통부',전문위:'생명의료',예산:134580},
+  {사업명:'소형모듈원자로개발',부처명:'과기정통부',전문위:'에너지원자력자원',예산:132500},
+  {사업명:'국가임상시험지원',부처명:'복지부',전문위:'생명의료',예산:131000},
+  {사업명:'수소에너지혁신기술개발',부처명:'기후부',전문위:'에너지원자력자원',예산:128500},
+  {사업명:'자율주행기술개발혁신사업',부처명:'경찰청',전문위:'공공해양환경',예산:14454},
+  {사업명:'항공우주부품기술개발',부처명:'산업부',전문위:'기계소재',예산:126000},
+  {사업명:'스마트팜기술개발',부처명:'농진청',전문위:'바이오제조농림수산',예산:123000},
+  {사업명:'디지털헬스케어기술개발',부처명:'복지부',전문위:'생명의료',예산:120000},
+  {사업명:'해양바이오기술개발',부처명:'해수부',전문위:'바이오제조농림수산',예산:118000},
+  {사업명:'양자컴퓨팅기술개발',부처명:'과기정통부',전문위:'양자반도체',예산:115000},
+  {사업명:'이차전지핵심기술개발',부처명:'산업부',전문위:'양자반도체',예산:112000},
+  {사업명:'6G이동통신핵심기술개발',부처명:'과기정통부',전문위:'인공지능ICT',예산:110000},
+  {사업명:'재난안전기술개발',부처명:'행안부',전문위:'공공해양환경',예산:108000},
+  {사업명:'농업ICT융복합기술개발',부처명:'농식품부',전문위:'바이오제조농림수산',예산:105000},
+  {사업명:'환경오염방지기술개발',부처명:'기후부',전문위:'공공해양환경',예산:102000},
+  {사업명:'지역혁신플랫폼',부처명:'과기정통부',전문위:'기초기반',예산:100000},
+  {사업명:'첨단로봇제조기술개발',부처명:'산업부',전문위:'기계소재',예산:98000},
 ];
 
-const committees = [
-  {name:'기계소재',       val:6757},
-  {name:'기초기반',       val:5840},
-  {name:'국방',           val:3866},
-  {name:'생명의료',       val:2811},
-  {name:'에너지원자력',   val:2696},
-  {name:'인공지능ICT',    val:2259},
-  {name:'우주항공국토',   val:1783},
-  {name:'양자반도체',     val:1600},
-  {name:'바이오농림수산', val:1410},
-  {name:'공공해양환경',   val:1258},
-];
+const COLORS = ['#185FA5','#1D9E75','#534AB7','#993C1D','#BA7517','#0F6E56','#3C3489','#712B13','#3B6D11','#633806','#72243E','#444441','#D4537E','#1D9E75'];
+const COLORS_FG = ['#E6F1FB','#E1F5EE','#EEEDFE','#FAECE7','#FAEEDA','#E1F5EE','#EEEDFE','#FAECE7','#EAF3DE','#FAEEDA','#FBEAF0','#F1EFE8','#FBEAF0','#E1F5EE'];
+const isDark = matchMedia('(prefers-color-scheme:dark)').matches;
 
-const strats = [
-  {name:'인공지능',      val:2432, bg:'#185FA5', fg:'#E6F1FB'},
-  {name:'첨단바이오',    val:1621, bg:'#1D9E75', fg:'#E1F5EE'},
-  {name:'우주·항공·해양',val:1410, bg:'#534AB7', fg:'#EEEDFE'},
-  {name:'반도체/디스플레이', val:1168, bg:'#993C1D', fg:'#FAECE7'},
-  {name:'첨단모빌리티',  val:612,  bg:'#BA7517', fg:'#FAEEDA'},
-  {name:'첨단로봇·제조', val:483,  bg:'#0F6E56', fg:'#E1F5EE'},
-  {name:'차세대통신',    val:352,  bg:'#3C3489', fg:'#EEEDFE'},
-  {name:'수소',          val:301,  bg:'#712B13', fg:'#FAECE7'},
-  {name:'양자',          val:301,  bg:'#3B6D11', fg:'#EAF3DE'},
-  {name:'이차전지',      val:272,  bg:'#633806', fg:'#FAEEDA'},
-  {name:'사이버보안',    val:252,  bg:'#72243E', fg:'#FBEAF0'},
-  {name:'차세대원자력',  val:233,  bg:'#444441', fg:'#F1EFE8'},
-];
+function fmt조(v){return (v/1000000).toFixed(1)+'조'}
+function fmt억(v){return Math.round(v/100).toLocaleString()+'억'}
+function fmtM(v){return Math.round(v).toLocaleString()}
+function pct(v,tot){return (v/tot*100).toFixed(1)+'%'}
 
-const policies = [
-  {name:'출연·직할',  val:4014, color:PURPLE},
-  {name:'국방',       val:3866, color:CORAL},
-  {name:'기술사업화', val:3376, color:TEAL},
-  {name:'기초연구',   val:3359, color:BLUE},
-  {name:'탄소중립',   val:2677, color:AMBER},
-  {name:'재난안전',   val:2426, color:GREEN},
-  {name:'인력양성',   val:1333, color:PINK},
-  {name:'지역',       val:1199, color:GRAY},
-];
-
-function makeBars(containerId, data, color) {
-  const el = document.getElementById(containerId);
-  const max = data[0].val;
-  el.innerHTML = data.map(d => {
-    const pct = Math.round(d.val / max * 100);
-    const display = (d.val / 1000).toFixed(1) + '조';
+function makeBars(containerId, data, nameKey, valKey, color, fmtFn){
+  const el=document.getElementById(containerId); if(!el)return;
+  const max=data[0][valKey];
+  el.innerHTML=data.map(d=>{
+    const p=Math.round(d[valKey]/max*100);
     return `<div class="bar-row">
-      <span class="bar-label">${d.name}</span>
-      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${color};"></div></div>
-      <span class="bar-val">${display}</span>
+      <span class="bl">${d[nameKey]}</span>
+      <div class="bt"><div class="bf" style="width:${p}%;background:${color}"></div></div>
+      <span class="bv">${(fmtFn||fmt조)(d[valKey])}</span>
     </div>`;
   }).join('');
 }
 
-function makePolicyBars(data) {
-  const el = document.getElementById('policy-bars');
-  const max = data[0].val;
-  el.innerHTML = data.map(d => {
-    const pct = Math.round(d.val / max * 100);
-    const display = (d.val / 1000).toFixed(1) + '조';
-    return `<div class="bar-row" style="margin-bottom:6px;">
-      <span class="bar-label">${d.name}</span>
-      <div class="bar-track"><div class="bar-fill" style="width:${pct}%;background:${d.color};"></div></div>
-      <span class="bar-val">${display}</span>
-    </div>`;
-  }).join('');
-}
+function makeTreemap(containerId, data, nameKey, valKey, colorArr, fgArr){
+  const container=document.getElementById(containerId); if(!container)return;
+  container.innerHTML='';
+  const W=container.offsetWidth||860, H=parseInt(container.style.height)||200;
+  const total=data.reduce((s,d)=>s+d[valKey],0);
+  const sorted=[...data].sort((a,b)=>b[valKey]-a[valKey]);
 
-function drawTreemap() {
-  const container = document.getElementById('treemap');
-  const W = container.offsetWidth || 860;
-  const H = 200;
-  const total = strats.reduce((s, d) => s + d.val, 0);
-
-  function squarify(items, x, y, w, h) {
-    if (!items.length) return [];
-    const cells = [];
-    let remaining = [...items];
-    let cx = x, cy = y, cw = w, ch = h;
-    while (remaining.length) {
-      const isHoriz = cw >= ch;
-      const dim = isHoriz ? ch : cw;
-      let batch = [], batchSum = 0, bestRatio = Infinity;
-      for (let i = 0; i < remaining.length; i++) {
-        const newBatch = [...batch, remaining[i]];
-        const newSum = batchSum + remaining[i].val;
-        const area = (newSum / total) * (w * h);
-        const batchDim = area / dim;
-        let maxR = 0;
-        newBatch.forEach(it => {
-          const a = (it.val / total) * (w * h);
-          const bw = a / batchDim;
-          const r = Math.max(batchDim / bw, bw / batchDim);
-          if (r > maxR) maxR = r;
-        });
-        if (maxR <= bestRatio || batch.length === 0) {
-          batch = newBatch; batchSum = newSum; bestRatio = maxR;
-        } else break;
+  function squarify(items,x,y,w,h){
+    if(!items.length)return[];
+    const cells=[]; let rem=[...items],cx=x,cy=y,cw=w,ch=h;
+    while(rem.length){
+      const isH=cw>=ch, dim=isH?ch:cw;
+      let batch=[],bSum=0,bRatio=Infinity;
+      for(let i=0;i<rem.length;i++){
+        const nb=[...batch,rem[i]],ns=bSum+rem[i][valKey];
+        const area=(ns/total)*(w*h), bd=area/dim;
+        let mr=0; nb.forEach(it=>{const a=(it[valKey]/total)*(w*h),bw=a/bd,r=Math.max(bd/bw,bw/bd);if(r>mr)mr=r;});
+        if(mr<=bRatio||batch.length===0){batch=nb;bSum=ns;bRatio=mr;}else break;
       }
-      remaining = remaining.slice(batch.length);
-      const batchArea = (batchSum / total) * (w * h);
-      const batchDim = batchArea / dim;
-      let offset = 0;
-      batch.forEach(it => {
-        const itArea = (it.val / total) * (w * h);
-        const itDim = itArea / batchDim;
-        if (isHoriz) cells.push({item:it, x:cx, y:cy+offset, w:batchDim, h:itDim});
-        else         cells.push({item:it, x:cx+offset, y:cy, w:itDim, h:batchDim});
-        offset += itDim;
+      rem=rem.slice(batch.length);
+      const bArea=(bSum/total)*(w*h),bd=bArea/dim; let off=0;
+      batch.forEach(it=>{
+        const a=(it[valKey]/total)*(w*h),d2=a/bd;
+        if(isH)cells.push({item:it,x:cx,y:cy+off,w:bd,h:d2});
+        else cells.push({item:it,x:cx+off,y:cy,w:d2,h:bd});
+        off+=d2;
       });
-      if (isHoriz) { cx += batchDim; cw -= batchDim; }
-      else         { cy += batchDim; ch -= batchDim; }
+      if(isH){cx+=bd;cw-=bd;}else{cy+=bd;ch-=bd;}
     }
     return cells;
   }
-
-  const cells = squarify([...strats].sort((a,b)=>b.val-a.val), 0, 0, W, H);
-  cells.forEach(c => {
-    const div = document.createElement('div');
-    div.className = 'treemap-cell';
-    div.style.cssText = `left:${c.x+1}px;top:${c.y+1}px;width:${c.w-2}px;height:${c.h-2}px;background:${c.item.bg};`;
-    const pct = (c.item.val / total * 100).toFixed(1);
-    const amt = (c.item.val / 1000).toFixed(1) + '조';
-    if (c.w > 55 && c.h > 32) {
-      div.innerHTML = `<span class="treemap-name" style="color:${c.item.fg};">${c.item.name}</span>
-        <span class="treemap-amt" style="color:${c.item.fg};">${amt} · ${pct}%</span>`;
-    } else if (c.w > 30 && c.h > 20) {
-      div.innerHTML = `<span class="treemap-name" style="color:${c.item.fg};font-size:9px;">${c.item.name}</span>`;
+  const cells=squarify(sorted,0,0,W,H);
+  cells.forEach(c=>{
+    const idx=data.findIndex(d=>d[nameKey]===c.item[nameKey]);
+    const bg=colorArr[idx%colorArr.length], fg=fgArr[idx%fgArr.length];
+    const div=document.createElement('div');
+    div.className='tc';
+    div.style.cssText=`left:${c.x+1}px;top:${c.y+1}px;width:${c.w-2}px;height:${c.h-2}px;background:${bg};`;
+    const p=(c.item[valKey]/total*100).toFixed(1);
+    const amt=fmt조(c.item[valKey]);
+    if(c.w>60&&c.h>34){
+      div.innerHTML=`<span class="tn" style="color:${fg}">${c.item[nameKey]}</span><span class="ta" style="color:${fg}">${amt}·${p}%</span>`;
+    } else if(c.w>32&&c.h>20){
+      div.innerHTML=`<span class="tn" style="color:${fg};font-size:9px">${c.item[nameKey]}</span>`;
     }
     container.appendChild(div);
   });
 }
 
-makeBars('dept-bars', depts, TEAL);
-makeBars('com-bars', committees, PURPLE);
-makePolicyBars(policies);
-drawTreemap();
+/* ── S0 요약 ── */
+function initS0(){
+  makeBars('sum-fields',DATA.fields10,'핵심분야','예산','#1D9E75',fmt조);
+  makeBars('sum-depts',DATA.depts.slice(0,10),'name','budget','#534AB7',fmt조);
+  makeTreemap('sum-treemap',DATA.strats,'name','val',COLORS,COLORS_FG);
+}
 
-window.addEventListener('resize', () => {
-  const t = document.getElementById('treemap');
-  t.innerHTML = '';
-  drawTreemap();
+/* ── S1 10대 핵심투자분야 ── */
+function initS1(){
+  makeTreemap('f10-treemap',DATA.fields10,'핵심분야','예산',
+    ['#185FA5','#1D9E75','#534AB7','#993C1D','#BA7517','#0F6E56','#3C3489','#712B13','#3B6D11','#633806'],
+    ['#E6F1FB','#E1F5EE','#EEEDFE','#FAECE7','#FAEEDA','#E1F5EE','#EEEDFE','#FAECE7','#EAF3DE','#FAEEDA']);
+
+  const total=DATA.fields10.reduce((s,d)=>s+d.예산,0);
+  const el=document.getElementById('f10-bars');
+  const max=DATA.fields10[0].예산;
+  const fc=['#185FA5','#1D9E75','#534AB7','#993C1D','#BA7517','#0F6E56','#3C3489','#712B13','#3B6D11','#633806'];
+  el.innerHTML=DATA.fields10.map((d,i)=>`<div class="bar-row">
+    <span class="bl">${d.핵심분야}</span>
+    <div class="bt"><div class="bf" style="width:${Math.round(d.예산/max*100)}%;background:${fc[i]}"></div></div>
+    <span class="bv">${fmt조(d.예산)}</span>
+  </div>`).join('');
+
+  const tbody=document.getElementById('f10-tbody');
+  tbody.innerHTML=DATA.fields10.map((d,i)=>`<tr>
+    <td>${i+1}</td>
+    <td><strong>${d.핵심분야}</strong></td>
+    <td class="num">${fmtM(d.예산)}</td>
+    <td class="num">${pct(d.예산,total)}</td>
+    <td class="num">${d.사업수}</td>
+  </tr>`).join('');
+}
+
+/* ── S2 국가전략기술 ── */
+function initS2(){
+  makeTreemap('strat-treemap',DATA.strats,'name','val',COLORS,COLORS_FG);
+  const total=DATA.strats.reduce((s,d)=>s+d.val,0);
+  const max=DATA.strats[0].val;
+  document.getElementById('strat-bars').innerHTML=DATA.strats.map((d,i)=>`<div class="bar-row">
+    <span class="bl">${d.name}</span>
+    <div class="bt"><div class="bf" style="width:${Math.round(d.val/max*100)}%;background:${COLORS[i]}"></div></div>
+    <span class="bv">${fmt조(d.val)}</span>
+  </div>`).join('');
+
+  // 전략기술 × 주요부처
+  const el2=document.getElementById('strat-dept');
+  el2.innerHTML=DATA.strats.slice(0,6).map((d,i)=>{
+    const top=Object.entries(d.depts).sort((a,b)=>b[1]-a[1]).slice(0,2);
+    return `<div class="bar-row" style="align-items:flex-start;margin-bottom:10px">
+      <span class="bl" style="padding-top:3px">${d.name}</span>
+      <div style="flex:1">${top.map(([k,v])=>`<div class="bar-row" style="margin-bottom:3px">
+        <span style="font-size:11px;color:var(--text2);width:60px;flex-shrink:0">${k}</span>
+        <div class="bt" style="height:10px"><div class="bf" style="width:${Math.round(v/d.val*100)}%;background:${COLORS[i]}"></div></div>
+        <span class="bv">${fmt억(v)}</span>
+      </div>`).join('')}</div>
+    </div>`;
+  }).join('');
+
+  document.getElementById('strat-tbody').innerHTML=DATA.strats.map((d,i)=>`<tr>
+    <td><span class="badge" style="background:${COLORS[i]}22;color:${COLORS[i]}">${d.name}</span></td>
+    <td class="num">${fmtM(d.val)}</td>
+    <td class="num">${pct(d.val,total)}</td>
+    <td class="num">${d.cnt}</td>
+  </tr>`).join('');
+}
+
+/* ── S3 정책분야 ── */
+let polChart=null;
+function initS3(){
+  const total=DATA.policies.reduce((s,d)=>s+d.val,0);
+  const max=DATA.policies[0].val;
+  const pc=['#534AB7','#993C1D','#1D9E75','#185FA5','#BA7517','#3B6D11','#D4537E','#888780'];
+  document.getElementById('pol-bars').innerHTML=DATA.policies.map((d,i)=>`<div class="bar-row">
+    <span class="bl">${d.name}</span>
+    <div class="bt"><div class="bf" style="width:${Math.round(d.val/max*100)}%;background:${pc[i]}"></div></div>
+    <span class="bv">${fmt조(d.val)}</span>
+  </div>`).join('');
+
+  if(!polChart){
+    polChart=new Chart(document.getElementById('pol-chart'),{
+      type:'doughnut',
+      data:{labels:DATA.policies.map(d=>d.name),datasets:[{data:DATA.policies.map(d=>d.val),backgroundColor:pc,borderWidth:1,borderColor:isDark?'#1a1a18':'#fff'}]},
+      options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false},tooltip:{callbacks:{label:ctx=>' '+fmt조(ctx.parsed)+' ('+pct(ctx.parsed,total)+')'}}}}
+    });
+  }
+  document.getElementById('pol-legend').innerHTML=DATA.policies.map((d,i)=>`<span style="display:flex;align-items:center;gap:5px"><span class="leg-box" style="background:${pc[i]}"></span>${d.name} ${pct(d.val,total)}</span>`).join('');
+
+  document.getElementById('pol-tbody').innerHTML=DATA.policies.map(d=>`<tr>
+    <td>${d.name}</td>
+    <td class="num">${fmtM(d.val)}</td>
+    <td class="num">${pct(d.val,total)}</td>
+    <td class="num">${d.cnt}</td>
+  </tr>`).join('');
+}
+
+/* ── S4 기타사업 ── */
+function initS4(){
+  const max=DATA.other_com[0].예산;
+  document.getElementById('other-com-bars').innerHTML=DATA.other_com.map(d=>`<div class="bar-row">
+    <span class="bl">${d.전문위}</span>
+    <div class="bt"><div class="bf" style="width:${Math.round(d.예산/max*100)}%;background:#5F5E5A"></div></div>
+    <span class="bv">${fmt조(d.예산)}</span>
+  </div>`).join('');
+  const cmax=DATA.other_com[0].사업수;
+  document.getElementById('other-com-cnt').innerHTML=DATA.other_com.map(d=>`<div class="bar-row">
+    <span class="bl">${d.전문위}</span>
+    <div class="bt"><div class="bf" style="width:${Math.round(d.사업수/cmax*100)}%;background:#B4B2A9"></div></div>
+    <span class="bv">${d.사업수}개</span>
+  </div>`).join('');
+
+  const others=PROJECTS.filter(p=>['기초기반','기계소재','국방','에너지원자력자원','바이오제조농림수산','공공해양환경','생명의료','인공지능ICT','우주항공국토','양자반도체'].includes(p.전문위));
+  document.getElementById('other-tbody').innerHTML=others.slice(0,50).map((d,i)=>`<tr>
+    <td>${i+1}</td><td>${d.사업명}</td><td>${d.부처명}</td><td>${d.전문위}</td><td class="num">${fmtM(d.예산)}</td>
+  </tr>`).join('');
+}
+
+/* ── S5 부처별 ── */
+function initS5(){
+  const max=DATA.depts[0].budget;
+  document.getElementById('dept-bars-full').innerHTML=DATA.depts.map(d=>`<div class="bar-row">
+    <span class="bl">${d.name}</span>
+    <div class="bt"><div class="bf" style="width:${Math.round(d.budget/max*100)}%;background:#1D9E75"></div></div>
+    <span class="bv">${fmt조(d.budget)}</span>
+  </div>`).join('');
+
+  const total=DATA.depts.reduce((s,d)=>s+d.budget,0);
+  document.getElementById('dept-tbody').innerHTML=DATA.depts.map((d,i)=>`<tr>
+    <td>${i+1}</td>
+    <td><strong>${d.name}</strong></td>
+    <td class="num">${d.cnt}</td>
+    <td class="num">${fmtM(d.budget)}</td>
+    <td class="num">${pct(d.budget,total)}</td>
+    <td>${d.top.map((t,j)=>`<span class="badge" style="background:${COLORS[j*3]}22;color:${COLORS[j*3]}">${t}</span>`).join(' ')}</td>
+  </tr>`).join('');
+}
+
+/* ── S6 세부사업 목록 ── */
+let s6Page=1, s6Filtered=[...PROJECTS];
+const PAGE=20;
+
+function initS6(){
+  const depts=[...new Set(PROJECTS.map(p=>p.부처명))].sort();
+  const coms=[...new Set(PROJECTS.map(p=>p.전문위))].sort();
+  document.getElementById('s6-dept').innerHTML='<option value="">전체 부처</option>'+depts.map(d=>`<option>${d}</option>`).join('');
+  document.getElementById('s6-com').innerHTML='<option value="">전체 전문위</option>'+coms.map(c=>`<option>${c}</option>`).join('');
+  filterTable();
+}
+function filterTable(){
+  const q=document.getElementById('s6-search').value.trim().toLowerCase();
+  const dept=document.getElementById('s6-dept').value;
+  const com=document.getElementById('s6-com').value;
+  s6Filtered=PROJECTS.filter(p=>
+    (!q||p.사업명.toLowerCase().includes(q))&&
+    (!dept||p.부처명===dept)&&
+    (!com||p.전문위===com)
+  );
+  s6Page=1; renderS6();
+}
+function renderS6(){
+  const total=s6Filtered.length;
+  document.getElementById('s6-info').textContent=`${total.toLocaleString()}개 사업`;
+  const start=(s6Page-1)*PAGE, end=Math.min(start+PAGE,total);
+  document.getElementById('s6-tbody').innerHTML=s6Filtered.slice(start,end).map((d,i)=>`<tr>
+    <td>${start+i+1}</td>
+    <td>${d.사업명}</td>
+    <td>${d.부처명}</td>
+    <td>${d.전문위}</td>
+    <td class="num">${fmtM(d.예산)}</td>
+  </tr>`).join('');
+  const pages=Math.ceil(total/PAGE);
+  const pg=document.getElementById('s6-pg');
+  let btns='';
+  if(s6Page>1) btns+=`<button onclick="goPage(${s6Page-1})">‹</button>`;
+  const lo=Math.max(1,s6Page-2), hi=Math.min(pages,s6Page+2);
+  for(let i=lo;i<=hi;i++) btns+=`<button onclick="goPage(${i})" class="${i===s6Page?'cur':''}">${i}</button>`;
+  if(s6Page<pages) btns+=`<button onclick="goPage(${s6Page+1})">›</button>`;
+  pg.innerHTML=btns;
+}
+function goPage(p){s6Page=p;renderS6();document.getElementById('s6').scrollIntoView({behavior:'smooth',block:'start'});}
+
+/* ── S7 3D 맵 ── */
+let cam={rotX:0.45,rotY:0.5,rotZ:0,zoom:1},drag={on:false,lx:0,ly:0};
+function initS7(){
+  const canvas=document.getElementById('canvas3d');
+  canvas.width=canvas.offsetWidth*devicePixelRatio||900;
+  canvas.height=480*devicePixelRatio;
+  canvas.style.height='480px';
+  const ctx=canvas.getContext('2d');
+
+  const comData=DATA.fields10.map((f,i)=>({...f,color:COLORS[i],fg:COLORS_FG[i]}));
+  const maxBudget=comData[0].예산;
+
+  function draw(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    const W=canvas.width,H=canvas.height;
+    const cx=W/2, cy=H/2;
+    const scale=Math.min(W,H)*0.38*cam.zoom;
+    const cols=5, rows=2;
+    const gap=0.28;
+    const bars=[];
+
+    comData.forEach((d,i)=>{
+      const col=i%cols, row=Math.floor(i/cols);
+      const gx=(col-(cols-1)/2)*(1+gap);
+      const gz=(row-(rows-1)/2)*(1+gap)*1.4;
+      const height=(d.예산/maxBudget)*1.6;
+      const bw=0.6, bd=0.6;
+      const verts=[
+        [gx-bw/2,0,gz-bd/2],[gx+bw/2,0,gz-bd/2],[gx+bw/2,height,gz-bd/2],[gx-bw/2,height,gz-bd/2],
+        [gx-bw/2,0,gz+bd/2],[gx+bw/2,0,gz+bd/2],[gx+bw/2,height,gz+bd/2],[gx-bw/2,height,gz+bd/2],
+      ];
+      function proj3d(x,y,z){
+        const cosX=Math.cos(cam.rotX),sinX=Math.sin(cam.rotX);
+        const cosY=Math.cos(cam.rotY),sinY=Math.sin(cam.rotY);
+        let x1=x*cosY+z*sinY, z1=-x*sinY+z*cosY;
+        let y1=y*cosX-z1*sinX, z2=y*sinX+z1*cosX;
+        const fov=4; const pz=z2+fov;
+        return [cx+(x1/pz)*scale, cy-(y1/pz)*scale, pz];
+      }
+      const pv=verts.map(v=>proj3d(...v));
+      const avgZ=(pv[0][2]+pv[1][2]+pv[2][2]+pv[3][2]+pv[4][2]+pv[5][2]+pv[6][2]+pv[7][2])/8;
+      bars.push({d,pv,avgZ,idx:i});
+    });
+
+    bars.sort((a,b)=>b.avgZ-a.avgZ);
+
+    bars.forEach(({d,pv,idx})=>{
+      const faces=[
+        {verts:[0,1,2,3],light:0.85},
+        {verts:[4,7,6,5],light:0.65},
+        {verts:[0,3,7,4],light:0.55},
+        {verts:[1,5,6,2],light:0.75},
+        {verts:[3,2,6,7],light:1.0},
+      ];
+      const baseColor=COLORS[idx];
+      function hexToRgb(h){const r=parseInt(h.slice(1,3),16),g=parseInt(h.slice(3,5),16),b=parseInt(h.slice(5,7),16);return[r,g,b];}
+      const [r,g,b]=hexToRgb(baseColor);
+      faces.forEach(f=>{
+        ctx.beginPath();
+        f.verts.forEach((vi,j)=>{const p=pv[vi];j===0?ctx.moveTo(p[0],p[1]):ctx.lineTo(p[0],p[1]);});
+        ctx.closePath();
+        const l=f.light;
+        ctx.fillStyle=`rgba(${Math.round(r*l)},${Math.round(g*l)},${Math.round(b*l)},0.92)`;
+        ctx.fill();
+        ctx.strokeStyle='rgba(0,0,0,0.15)';
+        ctx.lineWidth=0.5;
+        ctx.stroke();
+      });
+      // label on top face
+      const top=pv[3], topR=pv[2], topB=pv[7];
+      const lx=(pv[3][0]+pv[2][0]+pv[6][0]+pv[7][0])/4;
+      const ly=(pv[3][1]+pv[2][1]+pv[6][1]+pv[7][1])/4;
+      const topW=Math.abs(pv[2][0]-pv[3][0]);
+      if(topW>28){
+        ctx.fillStyle=COLORS_FG[idx];
+        ctx.font=`${Math.round(9*devicePixelRatio)}px -apple-system,sans-serif`;
+        ctx.textAlign='center';
+        ctx.textBaseline='middle';
+        const label=d.핵심분야.replace('·','\n');
+        const lines=d.핵심분야.split('·');
+        if(lines.length>1&&topW>40){
+          ctx.fillText(lines[0],lx,ly-6*devicePixelRatio);
+          ctx.fillText(lines[1]||'',lx,ly+6*devicePixelRatio);
+        } else {
+          ctx.fillText(d.핵심분야,lx,ly);
+        }
+      }
+    });
+
+    // floor grid
+    ctx.strokeStyle='rgba(128,128,128,0.15)';
+    ctx.lineWidth=0.5;
+    for(let i=-3;i<=3;i++){
+      function proj2d(x,z){
+        const cosX=Math.cos(cam.rotX),sinX=Math.sin(cam.rotX);
+        const cosY=Math.cos(cam.rotY),sinY=Math.sin(cam.rotY);
+        let x1=x*cosY+z*sinY,z1=-x*sinY+z*cosY;
+        let y1=-z1*sinX,z2=z1*cosX;
+        const fov=4,pz=z2+fov;
+        return[cx+(x1/pz)*scale,cy-(y1/pz)*scale];
+      }
+      ctx.beginPath(); const a=proj2d(-3,i*0.8),b=proj2d(3,i*0.8); ctx.moveTo(a[0],a[1]);ctx.lineTo(b[0],b[1]);ctx.stroke();
+      ctx.beginPath(); const c=proj2d(i*0.6,-2.4),d2=proj2d(i*0.6,2.4); ctx.moveTo(c[0],c[1]);ctx.lineTo(d2[0],d2[1]);ctx.stroke();
+    }
+  }
+
+  canvas.addEventListener('mousedown',e=>{drag.on=true;drag.lx=e.clientX;drag.ly=e.clientY;});
+  canvas.addEventListener('mousemove',e=>{
+    if(!drag.on)return;
+    cam.rotY+=(e.clientX-drag.lx)*0.008;
+    cam.rotX+=(e.clientY-drag.ly)*0.005;
+    cam.rotX=Math.max(-0.1,Math.min(1.2,cam.rotX));
+    drag.lx=e.clientX;drag.ly=e.clientY;
+    draw();
+  });
+  window.addEventListener('mouseup',()=>drag.on=false);
+  canvas.addEventListener('touchstart',e=>{drag.on=true;drag.lx=e.touches[0].clientX;drag.ly=e.touches[0].clientY;},{passive:true});
+  canvas.addEventListener('touchmove',e=>{
+    if(!drag.on)return;
+    cam.rotY+=(e.touches[0].clientX-drag.lx)*0.008;
+    cam.rotX+=(e.touches[0].clientY-drag.ly)*0.005;
+    cam.rotX=Math.max(-0.1,Math.min(1.2,cam.rotX));
+    drag.lx=e.touches[0].clientX;drag.ly=e.touches[0].clientY;
+    draw();
+  },{passive:true});
+  window.addEventListener('touchend',()=>drag.on=false);
+  canvas.addEventListener('wheel',e=>{cam.zoom=Math.max(0.5,Math.min(2,cam.zoom-e.deltaY*0.001));draw();},{passive:true});
+
+  draw();
+
+  document.getElementById('legend3d').innerHTML=DATA.fields10.map((d,i)=>`
+    <span><span class="leg-box" style="background:${COLORS[i]}"></span>${d.핵심분야} ${fmt조(d.예산)}</span>`).join('');
+}
+
+/* ── NAV ── */
+const inited=new Set();
+function showSection(id,tab){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  tab.classList.add('active');
+  if(!inited.has(id)){
+    inited.add(id);
+    if(id==='s1')initS1();
+    if(id==='s2')initS2();
+    if(id==='s3')initS3();
+    if(id==='s4')initS4();
+    if(id==='s5')initS5();
+    if(id==='s6')initS6();
+    if(id==='s7')initS7();
+    setTimeout(()=>{
+      ['sum-treemap','f10-treemap','strat-treemap'].forEach(id=>{
+        const el=document.getElementById(id);
+        if(el&&el.children.length>0) return;
+      });
+    },50);
+  }
+}
+
+// Init S0
+initS0();
+setTimeout(()=>{
+  makeTreemap('sum-treemap',DATA.strats,'name','val',COLORS,COLORS_FG);
+},100);
+window.addEventListener('resize',()=>{
+  ['sum-treemap','f10-treemap','strat-treemap'].forEach(id=>{
+    const el=document.getElementById(id); if(!el||!el.children.length)return;
+    el.innerHTML='';
+    if(id==='sum-treemap')makeTreemap('sum-treemap',DATA.strats,'name','val',COLORS,COLORS_FG);
+    if(id==='f10-treemap')makeTreemap('f10-treemap',DATA.fields10,'핵심분야','예산',['#185FA5','#1D9E75','#534AB7','#993C1D','#BA7517','#0F6E56','#3C3489','#712B13','#3B6D11','#633806'],['#E6F1FB','#E1F5EE','#EEEDFE','#FAECE7','#FAEEDA','#E1F5EE','#EEEDFE','#FAECE7','#EAF3DE','#FAEEDA']);
+    if(id==='strat-treemap')makeTreemap('strat-treemap',DATA.strats,'name','val',COLORS,COLORS_FG);
+  });
 });
 </script>
 </body>

@@ -73,7 +73,7 @@ canvas{display:block}
   <div class="tb-icon">🔬</div>
   <div>
     <div class="tb-title">2026년 정부 R&D 예산 - 3D 맵</div>
-    <div class="tb-sub">중앙 스파이럴: 12대 전략기술 (원 면적 ∝ 사업 수, 교집합=겹침 배치) &nbsp;|&nbsp; 외곽: 8대 정책분야 &nbsp;|&nbsp; 최외곽: 미분류 &nbsp;|&nbsp; 빌딩 세 변 ∝ 예산³√ &nbsp;|&nbsp; 과학기술혁신본부</div>
+    <div class="tb-sub">중앙 스파이럴: 12대 전략기술 (원 면적 ∝ 사업 수) &nbsp;|&nbsp; 높이=log(예산_백만원) &nbsp;|&nbsp; 폭=log(예산_억원) &nbsp;|&nbsp; 외곽: 정책분야 &nbsp;|&nbsp; 과학기술혁신본부</div>
   </div>
   <div class="tb-div"></div>
   <div class="tb-stat"><div class="tb-sv" id="s-b">-</div><div class="tb-sl">총예산(조)</div></div>
@@ -337,7 +337,7 @@ function setupLegend(D){
   });
   document.getElementById('leg-nc').textContent=noneC;
   const sc=document.getElementById('leg-scale');
-  [{l:'1조원이상',w:27,h:22,c:'#2563eb'},{l:'1000억대',w:20,h:16,c:'#059669'},{l:'100억대',w:14,h:11,c:'#7c3aed'},{l:'10억이하',w:8,h:6,c:'#94a3b8'}].forEach(s=>{
+  [{l:'1조(폭×4 높이×6)',w:28,h:22,c:'#2563eb'},{l:'100억(폭×2 높이×4)',w:21,h:16,c:'#059669'},{l:'10억(폭×1 높이×3)',w:14,h:11,c:'#7c3aed'},{l:'1억(최소폭 높이×2)',w:8,h:6,c:'#94a3b8'}].forEach(s=>{
     const r=document.createElement('div'); r.className='scale-row';
     r.innerHTML='<div class="scale-box" style="width:'+s.w+'px;height:'+s.h+'px;background:'+s.c+'"></div><div class="scale-text">'+s.l+'</div>';
     sc.appendChild(r);

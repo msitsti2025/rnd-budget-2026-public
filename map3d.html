@@ -73,7 +73,7 @@ canvas{display:block}
   <div class="tb-icon">🔬</div>
   <div>
     <div class="tb-title">2026년 정부 R&D 예산 - 3D 맵</div>
-    <div class="tb-sub">중앙: 12대 전략기술(교집합=중첩 배치) &nbsp;|&nbsp; 중간링: ST+정책 교차 &nbsp;|&nbsp; 외곽: 8대 정책분야 &nbsp;|&nbsp; 최외곽: 미분류 &nbsp;|&nbsp; 빌딩 세 변 ∝ 예산³√ &nbsp;|&nbsp; 과학기술혁신본부</div>
+    <div class="tb-sub">중앙 스파이럴: 12대 전략기술 (원 면적 ∝ 사업 수, 교집합=겹침 배치) &nbsp;|&nbsp; 외곽: 8대 정책분야 &nbsp;|&nbsp; 최외곽: 미분류 &nbsp;|&nbsp; 빌딩 세 변 ∝ 예산³√ &nbsp;|&nbsp; 과학기술혁신본부</div>
   </div>
   <div class="tb-div"></div>
   <div class="tb-stat"><div class="tb-sv" id="s-b">-</div><div class="tb-sl">총예산(조)</div></div>
@@ -124,7 +124,7 @@ let buildingMeshes=[],labelObjs=[],pfObjs=[],noneObjs=[];
 let showLabels=true,showPF=true,showNone=true;
 const raycaster=new THREE.Raycaster(), mouse=new THREE.Vector2();
 let hovered=null;
-const orb={isRot:false,isPan:false,lx:0,ly:0,theta:0.3,phi:0.42,radius:14000,tgt:new THREE.Vector3()};
+const orb={isRot:false,isPan:false,lx:0,ly:0,theta:0.4,phi:0.45,radius:8000,tgt:new THREE.Vector3()};
 
 async function init(){
   setT('데이터 로딩...');
@@ -173,8 +173,8 @@ function showErr(msg){
 function setupScene(){
   scene=new THREE.Scene();
   scene.background=new THREE.Color(0x0a0e1a);
-  scene.fog=new THREE.Fog(0x0a0e1a,14000,30000);
-  camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,1,40000);
+  scene.fog=new THREE.Fog(0x0a0e1a,8000,20000);
+  camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,1,28000);
   renderer=new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(innerWidth,innerHeight);
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
@@ -194,9 +194,9 @@ function setupLights(){
   const sun=new THREE.DirectionalLight(0xffffff,1.6);
   sun.position.set(700,1000,500); sun.castShadow=true;
   sun.shadow.mapSize.set(2048,2048);
-  sun.shadow.camera.left=-12000; sun.shadow.camera.right=12000;
-  sun.shadow.camera.top=12000;   sun.shadow.camera.bottom=-12000;
-  sun.shadow.camera.far=28000;
+  sun.shadow.camera.left=-7000; sun.shadow.camera.right=7000;
+  sun.shadow.camera.top=7000;   sun.shadow.camera.bottom=-7000;
+  sun.shadow.camera.far=18000;
   scene.add(sun);
   const fill=new THREE.DirectionalLight(0x3b5a8a,0.7);
   fill.position.set(-400,500,-300);
@@ -227,10 +227,10 @@ function makeAmoeba(pts, colorHex, fillOp, lineOp, yBase, objs){
 }
 
 function setupGround(D){
-  const gm=new THREE.Mesh(new THREE.PlaneGeometry(28000,28000),
+  const gm=new THREE.Mesh(new THREE.PlaneGeometry(16000,16000),
     new THREE.MeshLambertMaterial({color:0x080d18}));
   gm.rotation.x=-Math.PI/2; gm.receiveShadow=true; scene.add(gm);
-  const gh=new THREE.GridHelper(28000,400,0x131d2e,0x131d2e);
+  const gh=new THREE.GridHelper(16000,260,0x131d2e,0x131d2e);
   gh.position.y=0.2; scene.add(gh);
 
   // ST 아메바 (인덱스 순서)
@@ -264,7 +264,7 @@ async function buildCity(buildings, stCenters, pfCenters){
   });
   // 미분류 라벨
   const ns=makeSprite('미 분 류', NONE_COLOR, 36);
-  ns.position.set(0,14,13600); labelObjs.push(ns); noneObjs.push(ns); scene.add(ns);
+  ns.position.set(150,14,5950); labelObjs.push(ns); noneObjs.push(ns); scene.add(ns);
 }
 
 function createBuilding(b){
@@ -367,7 +367,7 @@ function setupEvents(){
     handleHover(e);
   });
   el.addEventListener('mouseup',()=>{orb.isRot=false;orb.isPan=false;});
-  el.addEventListener('wheel',e=>{orb.radius=Math.max(80,Math.min(30000,orb.radius*(1+e.deltaY*0.001)));updateCam();},{passive:true});
+  el.addEventListener('wheel',e=>{orb.radius=Math.max(80,Math.min(20000,orb.radius*(1+e.deltaY*0.001)));updateCam();},{passive:true});
   el.addEventListener('click',handleClick);
   el.addEventListener('contextmenu',e=>e.preventDefault());
 
@@ -435,7 +435,7 @@ function updateCam(){
   camera.position.set(tgt.x+radius*Math.sin(phi)*Math.sin(theta),tgt.y+radius*Math.cos(phi),tgt.z+radius*Math.sin(phi)*Math.cos(theta));
   camera.lookAt(tgt);
 }
-function resetCam(){orb.theta=0.3;orb.phi=0.42;orb.radius=14000;orb.tgt.set(0,2000,0);updateCam();}
+function resetCam(){orb.theta=0.4;orb.phi=0.45;orb.radius=8000;orb.tgt.set(650,0,1750);updateCam();}
 function getMeshes(){const m=[];buildingMeshes.forEach(bm=>bm.group.children.forEach(c=>{if(c.isMesh)m.push(c);}));return m;}
 
 function handleHover(e){

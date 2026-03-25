@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
@@ -22,23 +21,23 @@
 body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden}
 
 /* HEADER */
-header{background:#fff;border-bottom:1px solid var(–border);padding:0 24px;position:sticky;top:0;z-index:200;box-shadow:var(–shadow)}
+header{background:#fff;border-bottom:1px solid var(--border);padding:0 24px;position:sticky;top:0;z-index:200;box-shadow:var(--shadow)}
 .header-inner{max-width:1640px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;height:62px}
 .logo{display:flex;align-items:center;gap:12px}
 .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,#2563eb,#7c3aed);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 2px 8px rgba(37,99,235,.25)}
-.logo-text{font-size:16px;font-weight:700;color:var(–text)}
-.logo-sub{font-size:11px;color:var(–text3);margin-top:2px}
+.logo-text{font-size:16px;font-weight:700;color:var(--text)}
+.logo-sub{font-size:11px;color:var(--text3);margin-top:2px}
 .header-stats{display:flex;gap:28px}
 .hstat{text-align:right}
-.hstat-val{font-size:19px;font-weight:700;color:var(–accent2)}
-.hstat-label{font-size:10px;color:var(–text3)}
+.hstat-val{font-size:19px;font-weight:700;color:var(--accent2)}
+.hstat-label{font-size:10px;color:var(--text3)}
 
 /* TABS */
-.tab-bar{background:#fff;border-bottom:2px solid var(–border);padding:0 24px}
+.tab-bar{background:#fff;border-bottom:2px solid var(--border);padding:0 24px}
 .tab-bar-inner{max-width:1640px;margin:0 auto;display:flex;gap:0}
-.tab-btn{padding:13px 18px;font-size:13px;font-weight:500;color:var(–text3);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;font-family:var(–font);white-space:nowrap}
-.tab-btn:hover{color:var(–accent2)}
-.tab-btn.active{color:var(–accent2);border-bottom-color:var(–accent2);font-weight:700}
+.tab-btn{padding:13px 18px;font-size:13px;font-weight:500;color:var(--text3);border:none;background:none;cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-2px;transition:all .2s;font-family:var(--font);white-space:nowrap}
+.tab-btn:hover{color:var(--accent2)}
+.tab-btn.active{color:var(--accent2);border-bottom-color:var(--accent2);font-weight:700}
 .tab-btn.core10{color:#7c3aed}
 .tab-btn.core10.active{color:#7c3aed;border-bottom-color:#7c3aed}
 
@@ -47,20 +46,20 @@ header{background:#fff;border-bottom:1px solid var(–border);padding:0 24px;pos
 
 /* SIDEBAR */
 .sidebar{display:flex;flex-direction:column;gap:12px}
-.filter-card{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);padding:14px;box-shadow:var(–shadow)}
-.filter-title{font-size:11px;font-weight:700;color:var(–text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:7px}
-.filter-title::before{content:’’;display:inline-block;width:3px;height:11px;background:var(–accent2);border-radius:2px}
-.search-box{width:100%;background:var(–surface2);border:1px solid var(–border2);border-radius:8px;padding:9px 12px;color:var(–text);font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;font-family:var(–font)}
-.search-box:focus{border-color:var(–accent2);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
-.search-box::placeholder{color:var(–text4)}
+.filter-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+.filter-title{font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.filter-title::before{content:'';display:inline-block;width:3px;height:11px;background:var(--accent2);border-radius:2px}
+.search-box{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:9px 12px;color:var(--text);font-size:13px;outline:none;transition:border-color .2s,box-shadow .2s;font-family:var(--font)}
+.search-box:focus{border-color:var(--accent2);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.search-box::placeholder{color:var(--text4)}
 .tag-list{display:flex;flex-wrap:wrap;gap:5px;margin-top:4px}
-.tag{padding:4px 9px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(–border2);background:var(–surface2);color:var(–text2);transition:all .15s;white-space:nowrap;font-family:var(–font)}
-.tag:hover{border-color:var(–accent2);color:var(–accent2);background:var(–accent-light)}
-.tag.active{background:var(–accent-light);border-color:var(–accent2);color:var(–accent2);font-weight:600}
-.tag.all-tag.active{background:var(–accent2);border-color:var(–accent2);color:#fff}
-.select-box{width:100%;background:var(–surface2);border:1px solid var(–border2);border-radius:8px;padding:8px 12px;color:var(–text);font-size:12px;outline:none;cursor:pointer;margin-top:4px;font-family:var(–font)}
-.select-box:focus{border-color:var(–accent2)}
-.reset-btn{width:100%;padding:9px;background:var(–red-light);border:1px solid #fecaca;border-radius:8px;color:var(–red);font-size:12px;cursor:pointer;transition:all .2s;font-family:var(–font)}
+.tag{padding:4px 9px;border-radius:20px;font-size:11px;font-weight:500;cursor:pointer;border:1px solid var(--border2);background:var(--surface2);color:var(--text2);transition:all .15s;white-space:nowrap;font-family:var(--font)}
+.tag:hover{border-color:var(--accent2);color:var(--accent2);background:var(--accent-light)}
+.tag.active{background:var(--accent-light);border-color:var(--accent2);color:var(--accent2);font-weight:600}
+.tag.all-tag.active{background:var(--accent2);border-color:var(--accent2);color:#fff}
+.select-box{width:100%;background:var(--surface2);border:1px solid var(--border2);border-radius:8px;padding:8px 12px;color:var(--text);font-size:12px;outline:none;cursor:pointer;margin-top:4px;font-family:var(--font)}
+.select-box:focus{border-color:var(--accent2)}
+.reset-btn{width:100%;padding:9px;background:var(--red-light);border:1px solid #fecaca;border-radius:8px;color:var(--red);font-size:12px;cursor:pointer;transition:all .2s;font-family:var(--font)}
 .reset-btn:hover{background:#fee2e2}
 
 /* CONTENT */
@@ -71,50 +70,50 @@ header{background:#fff;border-bottom:1px solid var(–border);padding:0 24px;pos
 /* KPI */
 .kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
 .kpi-row-5{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.kpi-card{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);padding:16px 18px;position:relative;overflow:hidden;box-shadow:var(–shadow)}
-.kpi-card::before{content:’’;position:absolute;top:0;left:0;right:0;height:3px}
+.kpi-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.kpi-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px}
 .kpi-card.blue::before{background:linear-gradient(90deg,#2563eb,#7c3aed)}
 .kpi-card.green::before{background:linear-gradient(90deg,#059669,#0d9488)}
 .kpi-card.yellow::before{background:linear-gradient(90deg,#d97706,#db2777)}
 .kpi-card.purple::before{background:linear-gradient(90deg,#7c3aed,#db2777)}
 .kpi-card.teal::before{background:linear-gradient(90deg,#0d9488,#2563eb)}
 .kpi-card.orange::before{background:linear-gradient(90deg,#ea580c,#d97706)}
-.kpi-label{font-size:11px;color:var(–text3);margin-bottom:6px;font-weight:500}
-.kpi-value{font-size:24px;font-weight:700;color:var(–text);line-height:1}
-.kpi-unit{font-size:12px;font-weight:400;color:var(–text2);margin-left:3px}
-.kpi-sub{font-size:11px;color:var(–text3);margin-top:5px}
+.kpi-label{font-size:11px;color:var(--text3);margin-bottom:6px;font-weight:500}
+.kpi-value{font-size:24px;font-weight:700;color:var(--text);line-height:1}
+.kpi-unit{font-size:12px;font-weight:400;color:var(--text2);margin-left:3px}
+.kpi-sub{font-size:11px;color:var(--text3);margin-top:5px}
 
 /* CHARTS */
 .charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.chart-card{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);padding:20px;box-shadow:var(–shadow)}
+.chart-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;box-shadow:var(--shadow)}
 .chart-card.wide{grid-column:1/-1}
-.chart-title{font-size:13px;font-weight:600;color:var(–text2);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.chart-title{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:14px;display:flex;align-items:center;gap:8px}
 .chart-title-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
 .chart-wrap{position:relative;height:260px}
 .chart-wrap.tall{height:320px}
 .chart-wrap.h400{height:400px}
 
 /* TABLE */
-.table-card{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);overflow:hidden;box-shadow:var(–shadow)}
-.table-header{padding:13px 18px;border-bottom:1px solid var(–border);display:flex;align-items:center;justify-content:space-between;background:var(–surface2)}
-.table-title{font-size:13px;font-weight:700;color:var(–text)}
+.table-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+.table-header{padding:13px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:var(--surface2)}
+.table-title{font-size:13px;font-weight:700;color:var(--text)}
 .table-meta{display:flex;align-items:center;gap:8px}
 .badge{font-size:11px;padding:3px 10px;border-radius:20px;font-weight:600}
-.badge-blue{color:var(–accent2);background:var(–accent-light);border:1px solid #bfdbfe}
+.badge-blue{color:var(--accent2);background:var(--accent-light);border:1px solid #bfdbfe}
 .badge-purple{color:#6d28d9;background:#f5f3ff;border:1px solid #ddd6fe}
-.badge-gray{color:var(–text3);background:var(–surface3);border:1px solid var(–border)}
+.badge-gray{color:var(--text3);background:var(--surface3);border:1px solid var(--border)}
 .table-wrap{overflow-x:auto}
 table{width:100%;border-collapse:collapse;font-size:12px}
-th{background:var(–surface3);color:var(–text3);font-weight:700;padding:10px 14px;text-align:left;border-bottom:2px solid var(–border);white-space:nowrap;cursor:pointer;user-select:none;font-size:11px}
-th:hover{color:var(–accent2);background:#f0f7ff}
-th.sorted{color:var(–accent2)}
+th{background:var(--surface3);color:var(--text3);font-weight:700;padding:10px 14px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;font-size:11px}
+th:hover{color:var(--accent2);background:#f0f7ff}
+th.sorted{color:var(--accent2)}
 th.nosort{cursor:default}
-th.nosort:hover{color:var(–text3);background:var(–surface3)}
-td{padding:9px 14px;border-bottom:1px solid var(–border);color:var(–text2);vertical-align:middle}
+th.nosort:hover{color:var(--text3);background:var(--surface3)}
+td{padding:9px 14px;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:#f8fbff}
-.td-name{color:var(–text);font-weight:500;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.td-budget{color:var(–accent);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
+.td-name{color:var(--text);font-weight:500;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.td-budget{color:var(--accent);font-weight:700;text-align:right;font-variant-numeric:tabular-nums}
 .chip{display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;white-space:nowrap;font-weight:600;border:1px solid}
 .chip-blue{color:#1d4ed8;background:#eff6ff;border-color:#bfdbfe}
 .chip-purple{color:#6d28d9;background:#f5f3ff;border-color:#ddd6fe}
@@ -122,46 +121,46 @@ tr:hover td{background:#f8fbff}
 .tech-badge{font-size:10px;padding:2px 6px;border-radius:4px;white-space:nowrap;font-weight:500;border:1px solid}
 
 /* EXPAND ROW */
-.expand-btn{background:none;border:none;cursor:pointer;color:var(–text4);font-size:13px;padding:2px 6px;border-radius:4px;transition:all .15s;line-height:1}
-.expand-btn:hover{background:var(–accent-light);color:var(–accent2)}
-.expand-btn.open{color:var(–accent2);transform:rotate(90deg)}
+.expand-btn{background:none;border:none;cursor:pointer;color:var(--text4);font-size:13px;padding:2px 6px;border-radius:4px;transition:all .15s;line-height:1}
+.expand-btn:hover{background:var(--accent-light);color:var(--accent2)}
+.expand-btn.open{color:var(--accent2);transform:rotate(90deg)}
 .detail-row{display:none;background:#f8fbff}
 .detail-row.open{display:table-row}
 .detail-row td{padding:0}
 .detail-inner{padding:0 14px 10px 50px;border-top:1px dashed #e2e8f0}
 .detail-table{width:100%;border-collapse:collapse;margin-top:8px;font-size:11px}
 .detail-table th{background:#eef2ff;color:#4338ca;font-weight:600;padding:6px 10px;text-align:left;border-bottom:1px solid #c7d2fe}
-.detail-table td{padding:6px 10px;border-bottom:1px solid #e8edff;color:var(–text2)}
+.detail-table td{padding:6px 10px;border-bottom:1px solid #e8edff;color:var(--text2)}
 .detail-table tr:last-child td{border-bottom:none}
 .detail-table tr:hover td{background:#f0f4ff}
 
 /* PAGINATION */
-.pagination{display:flex;align-items:center;justify-content:center;gap:5px;padding:14px;border-top:1px solid var(–border);background:var(–surface2)}
-.page-btn{padding:5px 11px;border:1px solid var(–border2);border-radius:7px;background:var(–surface);color:var(–text2);font-size:12px;cursor:pointer;transition:all .15s;font-family:var(–font)}
-.page-btn:hover{border-color:var(–accent2);color:var(–accent2);background:var(–accent-light)}
-.page-btn.active{background:var(–accent2);border-color:var(–accent2);color:#fff;font-weight:600}
+.pagination{display:flex;align-items:center;justify-content:center;gap:5px;padding:14px;border-top:1px solid var(--border);background:var(--surface2)}
+.page-btn{padding:5px 11px;border:1px solid var(--border2);border-radius:7px;background:var(--surface);color:var(--text2);font-size:12px;cursor:pointer;transition:all .15s;font-family:var(--font)}
+.page-btn:hover{border-color:var(--accent2);color:var(--accent2);background:var(--accent-light)}
+.page-btn.active{background:var(--accent2);border-color:var(--accent2);color:#fff;font-weight:600}
 .page-btn:disabled{opacity:.3;cursor:not-allowed}
 
 /* CORE10 카드 그리드 */
 .core10-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
-.core10-card{background:var(–surface);border:1px solid var(–border);border-radius:var(–radius);padding:16px;box-shadow:var(–shadow);position:relative;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .15s}
+.core10-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:16px;box-shadow:var(--shadow);position:relative;overflow:hidden;cursor:pointer;transition:box-shadow .2s,transform .15s}
 .core10-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.12);transform:translateY(-1px)}
 .core10-card.selected{border-width:2px}
-.core10-num{font-size:10px;font-weight:700;color:var(–text4);letter-spacing:.05em;margin-bottom:6px}
-.core10-name{font-size:14px;font-weight:700;color:var(–text);margin-bottom:8px;line-height:1.3}
+.core10-num{font-size:10px;font-weight:700;color:var(--text4);letter-spacing:.05em;margin-bottom:6px}
+.core10-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:8px;line-height:1.3}
 .core10-budget{font-size:20px;font-weight:700;line-height:1}
-.core10-unit{font-size:11px;font-weight:400;color:var(–text3);margin-left:2px}
-.core10-pct{font-size:11px;color:var(–text3);margin-top:4px}
+.core10-unit{font-size:11px;font-weight:400;color:var(--text3);margin-left:2px}
+.core10-pct{font-size:11px;color:var(--text3);margin-top:4px}
 .core10-bar{position:absolute;bottom:0;left:0;right:0;height:3px}
 
 /* LOADING */
-#loading{position:fixed;inset:0;background:var(–bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:14px}
-.spinner{width:44px;height:44px;border:3px solid var(–border);border-top-color:var(–accent2);border-radius:50%;animation:spin .8s linear infinite}
+#loading{position:fixed;inset:0;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:9999;gap:14px}
+.spinner{width:44px;height:44px;border:3px solid var(--border);border-top-color:var(--accent2);border-radius:50%;animation:spin .8s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{color:var(–text3);font-size:14px}
+.loading-text{color:var(--text3);font-size:14px}
 
 /* TREEMAP */
-.treemap-container{width:100%;height:420px;position:relative;border-radius:10px;overflow:hidden;background:var(–surface2)}
+.treemap-container{width:100%;height:420px;position:relative;border-radius:10px;overflow:hidden;background:var(--surface2)}
 .treemap-cell{position:absolute;display:flex;flex-direction:column;justify-content:flex-end;padding:10px 12px;cursor:default;transition:filter .15s;overflow:hidden;border:2px solid #fff;border-radius:6px;box-sizing:border-box}
 .treemap-cell:hover{filter:brightness(.93);z-index:10}
 .treemap-cell-num{font-size:10px;font-weight:700;color:rgba(255,255,255,.7);margin-bottom:2px}
@@ -174,20 +173,19 @@ tr:hover td{background:#f8fbff}
 .treemap-cell.tiny .treemap-cell-val,.treemap-cell.tiny .treemap-cell-pct{display:none}
 
 /* SECTION DIVIDER */
-.section-divider{font-size:14px;font-weight:700;color:var(–text2);padding:10px 0 4px;border-bottom:2px solid var(–border);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.section-divider{font-size:14px;font-weight:700;color:var(--text2);padding:10px 0 4px;border-bottom:2px solid var(--border);margin-bottom:4px;display:flex;align-items:center;gap:8px}
 /* 12개 전략기술 KPI: 6열 2행 */
 #st-kpi-row{grid-template-columns:repeat(6,1fr)!important}
 
 @media(max-width:1200px){
-.main-layout{grid-template-columns:1fr}
-.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.kpi-row,.kpi-row-5{grid-template-columns:repeat(2,1fr)}
-.charts-grid{grid-template-columns:1fr}
-.core10-grid{grid-template-columns:repeat(3,1fr)}
-.treemap-container{height:320px}
+  .main-layout{grid-template-columns:1fr}
+  .sidebar{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .kpi-row,.kpi-row-5{grid-template-columns:repeat(2,1fr)}
+  .charts-grid{grid-template-columns:1fr}
+  .core10-grid{grid-template-columns:repeat(3,1fr)}
+  .treemap-container{height:320px}
 }
 </style>
-
 </head>
 <body>
 
@@ -252,231 +250,228 @@ tr:hover td{background:#f8fbff}
   </aside>
 
   <!-- CONTENT -->
-
   <main class="content">
 
-```
-<!-- ① 10대 핵심투자분야 (첫 탭) -->
-<div class="tab-panel active" id="panel-core10">
-  <div class="core10-grid" id="core10-cards"></div>
-  <div class="chart-card wide">
-    <div class="chart-title"><div class="chart-title-dot" style="background:#7c3aed"></div>10대 핵심투자분야별 예산 현황 (백만원)</div>
-    <div class="chart-wrap tall"><canvas id="core10-bar-chart"></canvas></div>
-  </div>
-  <div class="charts-grid">
-    <div class="chart-card wide">
-      <div class="chart-title"><div class="chart-title-dot" style="background:#7c3aed"></div>10대 핵심투자분야 예산 트리맵 <span style="font-size:11px;color:var(--text4);font-weight:400;margin-left:6px">· 박스 크기 ∝ 예산 규모</span></div>
-      <div class="treemap-container" id="core10-treemap"></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title"><div class="chart-title-dot" style="background:#059669"></div>핵심투자분야 × 부처 (상위 10)</div>
-      <div class="chart-wrap"><canvas id="core10-min-chart"></canvas></div>
-    </div>
-  </div>
-  <div class="table-card">
-    <div class="table-header">
-      <div class="table-title">10대 핵심투자분야 상세</div>
-      <div class="table-meta"><span class="badge badge-purple">10개 분야</span></div>
-    </div>
-    <div class="table-wrap">
-      <table><thead><tr>
-        <th class="nosort">번호</th>
-        <th class="nosort">핵심투자분야</th>
-        <th class="nosort" style="text-align:right">예산 (백만원)</th>
-        <th class="nosort" style="text-align:right">비율</th>
-        <th class="nosort">세부사업 수</th>
-      </tr></thead><tbody id="core10-table-body"></tbody></table>
-    </div>
-  </div>
-</div>
-
-<!-- ③ 국가전략기술 -->
-<div class="tab-panel" id="panel-strategic">
-  <div class="kpi-row" id="st-kpi-row" style="grid-template-columns:repeat(6,1fr)"></div>
-  <div class="chart-card wide">
-    <div class="chart-title"><div class="chart-title-dot" style="background:#2563eb"></div>국가전략기술 12개 분야별 예산 현황 (백만원)</div>
-    <div class="chart-wrap tall"><canvas id="st-bar-chart"></canvas></div>
-  </div>
-  <div class="charts-grid">
-    <div class="chart-card">
-      <div class="chart-title"><div class="chart-title-dot" style="background:#7c3aed"></div>전략기술 × 부처 (상위 10개)</div>
-      <div class="chart-wrap tall"><canvas id="st-min-chart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title"><div class="chart-title-dot" style="background:#0d9488"></div>전략기술 × 전문위원회</div>
-      <div class="chart-wrap tall"><canvas id="st-com-chart"></canvas></div>
-    </div>
-  </div>
-  <div class="table-card">
-    <div class="table-header">
-      <div class="table-title">전략기술별 세부사업 현황</div>
-      <div class="table-meta"><span class="badge badge-blue" id="st-table-count"></span></div>
-    </div>
-    <div class="table-wrap">
-      <table><thead><tr>
-        <th class="nosort">전략기술</th>
-        <th onclick="stSortBy('count')" id="st-th-count">세부사업 수</th>
-        <th onclick="stSortBy('budget')" id="st-th-budget">총 예산 ▼</th>
-        <th onclick="stSortBy('avg')" id="st-th-avg">평균 예산</th>
-        <th class="nosort">점유율</th>
-      </tr></thead><tbody id="st-table-body"></tbody></table>
-    </div>
-  </div>
-</div>
-
-<!-- ④ 정책분야 -->
-<div class="tab-panel" id="panel-policy">
-  <div class="charts-grid">
-    <div class="chart-card">
-      <div class="chart-title"><div class="chart-title-dot" style="background:#7c3aed"></div>정책분야별 예산 비율</div>
-      <div class="chart-wrap"><canvas id="pf-donut-chart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title"><div class="chart-title-dot" style="background:#059669"></div>정책분야별 예산 규모</div>
-      <div class="chart-wrap"><canvas id="pf-bar-chart"></canvas></div>
-    </div>
-  </div>
-  <div class="table-card">
-    <div class="table-header">
-      <div class="table-title">정책분야별 세부사업 현황</div>
-      <div class="table-meta"><span class="badge badge-blue" id="pf-table-count"></span></div>
-    </div>
-    <div class="table-wrap">
-      <table><thead><tr>
-        <th class="nosort">정책분야</th>
-        <th class="nosort">세부사업 수</th>
-        <th class="nosort" style="text-align:right">총 예산 (백만원)</th>
-        <th class="nosort">점유율</th>
-        <th class="nosort" style="text-align:right">평균 예산</th>
-      </tr></thead><tbody id="pf-table-body"></tbody></table>
-    </div>
-  </div>
-</div>
-
-<!-- ⑤ 부처별 현황 -->
-<div class="tab-panel" id="panel-ministry">
-  <div class="chart-card">
-    <div class="chart-title"><div class="chart-title-dot" style="background:#059669"></div>부처별 R&D 예산 현황 (전체)</div>
-    <div class="chart-wrap" style="height:480px"><canvas id="min-full-chart"></canvas></div>
-  </div>
-  <div class="table-card">
-    <div class="table-header">
-      <div class="table-title">부처별 상세 현황</div>
-      <div class="table-meta"><span class="badge badge-blue" id="min-table-count"></span></div>
-    </div>
-    <div class="table-wrap">
-      <table><thead><tr>
-        <th class="nosort">순위</th>
-        <th class="nosort">부처명</th>
-        <th class="nosort">세부사업</th>
-        <th class="nosort" style="text-align:right">총 예산 (백만원)</th>
-        <th class="nosort">점유율</th>
-        <th class="nosort">주요 전략기술</th>
-      </tr></thead><tbody id="min-table-body"></tbody></table>
-    </div>
-  </div>
-</div>
-
-<!-- ② 세부·내역사업 목록 -->
-<div class="tab-panel" id="panel-list">
-  <div class="kpi-row">
-    <div class="kpi-card blue">
-      <div class="kpi-label">표시 중인 세부사업</div>
-      <div class="kpi-value" id="list-k-sub">-<span class="kpi-unit">개</span></div>
-      <div class="kpi-sub" id="list-k-sub-pct"></div>
+    <!-- ① 10대 핵심투자분야 (첫 탭) -->
+    <div class="tab-panel active" id="panel-core10">
+      <div class="core10-grid" id="core10-cards"></div>
+      <div class="chart-card wide">
+        <div class="chart-title"><div class="chart-title-dot" style="background:#7c3aed"></div>10대 핵심투자분야별 예산 현황 (백만원)</div>
+        <div class="chart-wrap tall"><canvas id="core10-bar-chart"></canvas></div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card wide">
+          <div class="chart-title"><div class="chart-title-dot" style="background:#7c3aed"></div>10대 핵심투자분야 예산 트리맵 <span style="font-size:11px;color:var(--text4);font-weight:400;margin-left:6px">· 박스 크기 ∝ 예산 규모</span></div>
+          <div class="treemap-container" id="core10-treemap"></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title"><div class="chart-title-dot" style="background:#059669"></div>핵심투자분야 × 부처 (상위 10)</div>
+          <div class="chart-wrap"><canvas id="core10-min-chart"></canvas></div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">10대 핵심투자분야 상세</div>
+          <div class="table-meta"><span class="badge badge-purple">10개 분야</span></div>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr>
+            <th class="nosort">번호</th>
+            <th class="nosort">핵심투자분야</th>
+            <th class="nosort" style="text-align:right">예산 (백만원)</th>
+            <th class="nosort" style="text-align:right">비율</th>
+            <th class="nosort">세부사업 수</th>
+          </tr></thead><tbody id="core10-table-body"></tbody></table>
+        </div>
+      </div>
     </div>
 
-    <div class="kpi-card yellow">
-      <div class="kpi-label">예산 합계</div>
-      <div class="kpi-value" id="list-k-budget">-<span class="kpi-unit">조원</span></div>
-      <div class="kpi-sub" id="list-k-budget-pct"></div>
+    <!-- ③ 국가전략기술 -->
+    <div class="tab-panel" id="panel-strategic">
+      <div class="kpi-row" id="st-kpi-row" style="grid-template-columns:repeat(6,1fr)"></div>
+      <div class="chart-card wide">
+        <div class="chart-title"><div class="chart-title-dot" style="background:#2563eb"></div>국가전략기술 12개 분야별 예산 현황 (백만원)</div>
+        <div class="chart-wrap tall"><canvas id="st-bar-chart"></canvas></div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title"><div class="chart-title-dot" style="background:#7c3aed"></div>전략기술 × 부처 (상위 10개)</div>
+          <div class="chart-wrap tall"><canvas id="st-min-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title"><div class="chart-title-dot" style="background:#0d9488"></div>전략기술 × 전문위원회</div>
+          <div class="chart-wrap tall"><canvas id="st-com-chart"></canvas></div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">전략기술별 세부사업 현황</div>
+          <div class="table-meta"><span class="badge badge-blue" id="st-table-count"></span></div>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr>
+            <th class="nosort">전략기술</th>
+            <th onclick="stSortBy('count')" id="st-th-count">세부사업 수</th>
+            <th onclick="stSortBy('budget')" id="st-th-budget">총 예산 ▼</th>
+            <th onclick="stSortBy('avg')" id="st-th-avg">평균 예산</th>
+            <th class="nosort">점유율</th>
+          </tr></thead><tbody id="st-table-body"></tbody></table>
+        </div>
+      </div>
     </div>
-    <div class="kpi-card purple">
-      <div class="kpi-label">평균 세부사업 예산</div>
-      <div class="kpi-value" id="list-k-avg">-<span class="kpi-unit">억원</span></div>
-      <div class="kpi-sub" id="list-k-max"></div>
-    </div>
-  </div>
-  <div class="table-card">
-    <div class="table-header">
-      <div class="table-title">세부사업 목록</div>
-      <div class="table-meta"><span class="badge badge-gray" id="list-table-count"></span></div>
-    </div>
-    <div class="table-wrap">
-      <table id="list-table">
-        <thead><tr>
-          <th class="nosort" style="width:30px"></th>
-          <th onclick="listSortBy('name')" id="lt-name">사업 구분명</th>
-          <th onclick="listSortBy('ministry')" id="lt-ministry">부처</th>
-          <th onclick="listSortBy('committee')" id="lt-committee">전문위</th>
-          <th onclick="listSortBy('budget')" id="lt-budget">예산(백만원) ▼</th>
-          
-          <th class="nosort">전략기술</th>
-          <th class="nosort">정책분야</th>
-        </tr></thead>
-        <tbody id="list-table-body"></tbody>
-      </table>
-    </div>
-    <div class="pagination" id="list-pagination"></div>
-  </div>
-</div>
 
-<!-- ⑥ 기타 사업 -->
-<div class="tab-panel" id="panel-unclassified">
-  <div class="kpi-row">
-    <div class="kpi-card blue">
-      <div class="kpi-label">기타 세부사업</div>
-      <div class="kpi-value" id="unc-k-sub">-<span class="kpi-unit">개</span></div>
-      <div class="kpi-sub" id="unc-k-sub-pct"></div>
+    <!-- ④ 정책분야 -->
+    <div class="tab-panel" id="panel-policy">
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title"><div class="chart-title-dot" style="background:#7c3aed"></div>정책분야별 예산 비율</div>
+          <div class="chart-wrap"><canvas id="pf-donut-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title"><div class="chart-title-dot" style="background:#059669"></div>정책분야별 예산 규모</div>
+          <div class="chart-wrap"><canvas id="pf-bar-chart"></canvas></div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">정책분야별 세부사업 현황</div>
+          <div class="table-meta"><span class="badge badge-blue" id="pf-table-count"></span></div>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr>
+            <th class="nosort">정책분야</th>
+            <th class="nosort">세부사업 수</th>
+            <th class="nosort" style="text-align:right">총 예산 (백만원)</th>
+            <th class="nosort">점유율</th>
+            <th class="nosort" style="text-align:right">평균 예산</th>
+          </tr></thead><tbody id="pf-table-body"></tbody></table>
+        </div>
+      </div>
     </div>
-    <div class="kpi-card yellow">
-      <div class="kpi-label">기타 사업 예산 합계</div>
-      <div class="kpi-value" id="unc-k-budget">-<span class="kpi-unit">조원</span></div>
-      <div class="kpi-sub" id="unc-k-budget-pct"></div>
+
+    <!-- ⑤ 부처별 현황 -->
+    <div class="tab-panel" id="panel-ministry">
+      <div class="chart-card">
+        <div class="chart-title"><div class="chart-title-dot" style="background:#059669"></div>부처별 R&D 예산 현황 (전체)</div>
+        <div class="chart-wrap" style="height:480px"><canvas id="min-full-chart"></canvas></div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">부처별 상세 현황</div>
+          <div class="table-meta"><span class="badge badge-blue" id="min-table-count"></span></div>
+        </div>
+        <div class="table-wrap">
+          <table><thead><tr>
+            <th class="nosort">순위</th>
+            <th class="nosort">부처명</th>
+            <th class="nosort">세부사업</th>
+            <th class="nosort" style="text-align:right">총 예산 (백만원)</th>
+            <th class="nosort">점유율</th>
+            <th class="nosort">주요 전략기술</th>
+          </tr></thead><tbody id="min-table-body"></tbody></table>
+        </div>
+      </div>
     </div>
-    <div class="kpi-card purple">
-      <div class="kpi-label">전문위원회 수</div>
-      <div class="kpi-value" id="unc-k-com">-<span class="kpi-unit">개</span></div>
-      <div class="kpi-sub">전략기술·정책분야 미해당</div>
+
+    <!-- ② 세부·내역사업 목록 -->
+    <div class="tab-panel" id="panel-list">
+      <div class="kpi-row">
+        <div class="kpi-card blue">
+          <div class="kpi-label">표시 중인 세부사업</div>
+          <div class="kpi-value" id="list-k-sub">-<span class="kpi-unit">개</span></div>
+          <div class="kpi-sub" id="list-k-sub-pct"></div>
+        </div>
+
+        <div class="kpi-card yellow">
+          <div class="kpi-label">예산 합계</div>
+          <div class="kpi-value" id="list-k-budget">-<span class="kpi-unit">조원</span></div>
+          <div class="kpi-sub" id="list-k-budget-pct"></div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-label">평균 세부사업 예산</div>
+          <div class="kpi-value" id="list-k-avg">-<span class="kpi-unit">억원</span></div>
+          <div class="kpi-sub" id="list-k-max"></div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">세부사업 목록</div>
+          <div class="table-meta"><span class="badge badge-gray" id="list-table-count"></span></div>
+        </div>
+        <div class="table-wrap">
+          <table id="list-table">
+            <thead><tr>
+              <th class="nosort" style="width:30px"></th>
+              <th onclick="listSortBy('name')" id="lt-name">사업 구분명</th>
+              <th onclick="listSortBy('ministry')" id="lt-ministry">부처</th>
+              <th onclick="listSortBy('committee')" id="lt-committee">전문위</th>
+              <th onclick="listSortBy('budget')" id="lt-budget">예산(백만원) ▼</th>
+              
+              <th class="nosort">전략기술</th>
+              <th class="nosort">정책분야</th>
+            </tr></thead>
+            <tbody id="list-table-body"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="list-pagination"></div>
+      </div>
     </div>
-    <div class="kpi-card green">
-      <div class="kpi-label">평균 사업 예산</div>
-      <div class="kpi-value" id="unc-k-avg">-<span class="kpi-unit">억원</span></div>
-      <div class="kpi-sub" id="unc-k-avg-sub"></div>
+
+    <!-- ⑥ 기타 사업 -->
+    <div class="tab-panel" id="panel-unclassified">
+      <div class="kpi-row">
+        <div class="kpi-card blue">
+          <div class="kpi-label">기타 세부사업</div>
+          <div class="kpi-value" id="unc-k-sub">-<span class="kpi-unit">개</span></div>
+          <div class="kpi-sub" id="unc-k-sub-pct"></div>
+        </div>
+        <div class="kpi-card yellow">
+          <div class="kpi-label">기타 사업 예산 합계</div>
+          <div class="kpi-value" id="unc-k-budget">-<span class="kpi-unit">조원</span></div>
+          <div class="kpi-sub" id="unc-k-budget-pct"></div>
+        </div>
+        <div class="kpi-card purple">
+          <div class="kpi-label">전문위원회 수</div>
+          <div class="kpi-value" id="unc-k-com">-<span class="kpi-unit">개</span></div>
+          <div class="kpi-sub">전략기술·정책분야 미해당</div>
+        </div>
+        <div class="kpi-card green">
+          <div class="kpi-label">평균 사업 예산</div>
+          <div class="kpi-value" id="unc-k-avg">-<span class="kpi-unit">억원</span></div>
+          <div class="kpi-sub" id="unc-k-avg-sub"></div>
+        </div>
+      </div>
+      <div class="charts-grid">
+        <div class="chart-card">
+          <div class="chart-title"><div class="chart-title-dot" style="background:#64748b"></div>전문위별 기타 사업 예산</div>
+          <div class="chart-wrap"><canvas id="unc-com-chart"></canvas></div>
+        </div>
+        <div class="chart-card">
+          <div class="chart-title"><div class="chart-title-dot" style="background:#94a3b8"></div>전문위별 사업 수</div>
+          <div class="chart-wrap"><canvas id="unc-cnt-chart"></canvas></div>
+        </div>
+      </div>
+      <div class="table-card">
+        <div class="table-header">
+          <div class="table-title">기타 세부사업 목록 (전문위별 분류)</div>
+          <div class="table-meta"><span class="badge badge-gray" id="unc-table-count"></span></div>
+        </div>
+        <div class="table-wrap">
+          <table id="unc-table">
+            <thead><tr>
+              <th class="nosort" style="width:30px"></th>
+              <th class="nosort">#</th>
+              <th onclick="uncSortBy('name')" id="unc-th-name">세부사업명</th>
+              <th onclick="uncSortBy('ministry')" id="unc-th-ministry">부처</th>
+              <th onclick="uncSortBy('committee')" id="unc-th-committee">전문위 ▲</th>
+              <th onclick="uncSortBy('budget')" id="unc-th-budget">예산(백만원)</th>
+            </tr></thead>
+            <tbody id="unc-table-body"></tbody>
+          </table>
+        </div>
+        <div class="pagination" id="unc-pagination"></div>
+      </div>
     </div>
-  </div>
-  <div class="charts-grid">
-    <div class="chart-card">
-      <div class="chart-title"><div class="chart-title-dot" style="background:#64748b"></div>전문위별 기타 사업 예산</div>
-      <div class="chart-wrap"><canvas id="unc-com-chart"></canvas></div>
-    </div>
-    <div class="chart-card">
-      <div class="chart-title"><div class="chart-title-dot" style="background:#94a3b8"></div>전문위별 사업 수</div>
-      <div class="chart-wrap"><canvas id="unc-cnt-chart"></canvas></div>
-    </div>
-  </div>
-  <div class="table-card">
-    <div class="table-header">
-      <div class="table-title">기타 세부사업 목록 (전문위별 분류)</div>
-      <div class="table-meta"><span class="badge badge-gray" id="unc-table-count"></span></div>
-    </div>
-    <div class="table-wrap">
-      <table id="unc-table">
-        <thead><tr>
-          <th class="nosort" style="width:30px"></th>
-          <th class="nosort">#</th>
-          <th onclick="uncSortBy('name')" id="unc-th-name">세부사업명</th>
-          <th onclick="uncSortBy('ministry')" id="unc-th-ministry">부처</th>
-          <th onclick="uncSortBy('committee')" id="unc-th-committee">전문위 ▲</th>
-          <th onclick="uncSortBy('budget')" id="unc-th-budget">예산(백만원)</th>
-        </tr></thead>
-        <tbody id="unc-table-body"></tbody>
-      </table>
-    </div>
-    <div class="pagination" id="unc-pagination"></div>
-  </div>
-</div>
-```
 
   </main>
 </div>
@@ -1186,6 +1181,5 @@ loadData().catch(e=>{
   </div>`;
 });
 </script>
-
 </body>
 </html>

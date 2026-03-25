@@ -73,12 +73,12 @@ canvas{display:block}
   <div class="tb-icon">🔬</div>
   <div>
     <div class="tb-title">2026년 정부 R&D 예산 - 3D 맵</div>
-    <div class="tb-sub">중앙: 12대 전략기술 스파이럴(원∝사업수) &nbsp;|&nbsp; 주변: 8대 정책분야 &nbsp;|&nbsp; 빌딩 세 변=(예산/10억)^⅓ &nbsp;|&nbsp; 충돌없는 팩킹 배치 &nbsp;|&nbsp; 과학기술혁신본부</div>
+    <div class="tb-sub">인공지능 중앙 · 스파이럴 배치 · 원 면적 ∝ 사업 수 &nbsp;|&nbsp; 빌딩 크기=(예산/10억)^⅓×2 &nbsp;|&nbsp; 과학기술혁신본부</div>
   </div>
   <div class="tb-div"></div>
   <div class="tb-stat"><div class="tb-sv" id="s-b">-</div><div class="tb-sl">총예산(조)</div></div>
   <div class="tb-stat"><div class="tb-sv" id="s-s">-</div><div class="tb-sl">세부사업</div></div>
-  <div class="tb-stat"><div class="tb-sv" id="s-d">-</div><div class="tb-sl">내역사업</div></div>
+  <div class="tb-stat"><div class="tb-sv" id="s-d">-</div><div class="tb-sl">세부사업</div></div>
   <div class="tb-sp"></div>
   <button class="tbtn" onclick="resetCam()">📷 초기시점</button>
   <button class="tbtn on" id="b-lbl" onclick="toggleLabels()">🏷 라벨</button>
@@ -114,8 +114,8 @@ const NONE_COLOR='#94a3b8';
 function stColor(idx){ return ST_COLORS[idx]||NONE_COLOR; }
 function pfColor(idx){ return PF_COLORS[idx]||NONE_COLOR; }
 function bldgColor(b){
-  if(b.st_idx&&b.st_idx.length>0) return stColor(b.st_idx[0]);
-  if(b.pf_idx&&b.pf_idx.length>0) return pfColor(b.pf_idx[0]);
+  if(b.si&&b.si.length>0) return stColor(b.si[0]);
+  if(b.pi&&b.pi.length>0) return pfColor(b.pi[0]);
   return NONE_COLOR;
 }
 
@@ -124,14 +124,14 @@ let buildingMeshes=[],labelObjs=[],pfObjs=[],noneObjs=[];
 let showLabels=true,showPF=true,showNone=true;
 const raycaster=new THREE.Raycaster(), mouse=new THREE.Vector2();
 let hovered=null;
-const orb={isRot:false,isPan:false,lx:0,ly:0,theta:0.3,phi:0.44,radius:500,tgt:new THREE.Vector3()};
+const orb={isRot:false,isPan:false,lx:0,ly:0,theta:0.2,phi:0.35,radius:700,tgt:new THREE.Vector3()};
 
 async function init(){
   setT('데이터 로딩...');
   let D;
   try {
     const res = await fetch('map3d.json');
-    if(!res.ok) throw new Error('map3d.json HTTP ' + res.status);
+    if(!res.ok) throw new Error('HTTP ' + res.status);
     D = await res.json();
   } catch(e) {
     showErr('JSON 로드 실패: ' + e.message);
@@ -151,7 +151,7 @@ async function init(){
   try { setupGround(D); } catch(e){ showErr('지면 오류: '+e.message); return; }
 
   setT('빌딩 생성...');
-  try { await buildCity(D.buildings, D.st_centers, D.pf_centers); } catch(e){ showErr('빌딩 오류: '+e.message); return; }
+  try { await buildCity(D.buildings, D.st_centers, D.pf_centers, D); } catch(e){ showErr('빌딩 오류: '+e.message); return; }
 
   setupLegend(D);
   setupStats(D.buildings);
@@ -166,14 +166,14 @@ function showErr(msg){
     '<div style="color:#dc2626;text-align:center;padding:40px">'+
     '<div style="font-size:36px">&#9888;</div>'+
     '<div style="color:#0f172a;margin-top:10px;font-size:14px">'+msg+'</div>'+
-    '<div style="color:#64748b;font-size:12px;margin-top:6px">map3d.html 과 map3d.json 을 같은 폴더에 두세요</div>'
+    '<div style="color:#64748b;font-size:12px;margin-top:6px">브라우저 콘솔(F12)에서 오류를 확인하세요</div>'
     '</div>';
 }
 
 function setupScene(){
   scene=new THREE.Scene();
   scene.background=new THREE.Color(0x0a0e1a);
-  scene.fog=new THREE.Fog(0x0a0e1a,600,2000);
+  scene.fog=new THREE.Fog(0x0a0e1a,800,2500);
   camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,1,4000);
   renderer=new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(innerWidth,innerHeight);
@@ -194,8 +194,8 @@ function setupLights(){
   const sun=new THREE.DirectionalLight(0xffffff,1.6);
   sun.position.set(700,1000,500); sun.castShadow=true;
   sun.shadow.mapSize.set(2048,2048);
-  sun.shadow.camera.left=-700; sun.shadow.camera.right=700;
-  sun.shadow.camera.top=700;   sun.shadow.camera.bottom=-700;
+  sun.shadow.camera.left=-800; sun.shadow.camera.right=800;
+  sun.shadow.camera.top=800;   sun.shadow.camera.bottom=-800;
   sun.shadow.camera.far=2500;
   scene.add(sun);
   const fill=new THREE.DirectionalLight(0x3b5a8a,0.7);
@@ -227,30 +227,55 @@ function makeAmoeba(pts, colorHex, fillOp, lineOp, yBase, objs){
 }
 
 function setupGround(D){
-  const gm=new THREE.Mesh(new THREE.PlaneGeometry(1800,1800),
+  const gm=new THREE.Mesh(new THREE.PlaneGeometry(2000,2000),
     new THREE.MeshLambertMaterial({color:0x080d18}));
   gm.rotation.x=-Math.PI/2; gm.receiveShadow=true; scene.add(gm);
-  const gh=new THREE.GridHelper(1800,100,0x131d2e,0x131d2e);
+  const gh=new THREE.GridHelper(2000,100,0x111827,0x111827);
   gh.position.y=0.2; scene.add(gh);
 
-  // ST 아메바 (인덱스 순서)
+  // ── ST 원형 구역 (면적 ∝ 사업 수) ──
   ST_NAMES.forEach((n,i)=>{
-    makeAmoeba(D.st_amoeba[i], ST_COLORS[i], 0.18, 0.80, 0.5, null);
+    const [cx,cy]=D.st_centers[i];
+    const r=D.st_radii[i];
+    makeCircleZone(cx,cy,r,ST_COLORS[i],0.18,0.82,0.5,null);
   });
-  // PF 아메바
+  // ── PF 원형 구역 ──
   PF_NAMES.forEach((n,i)=>{
-    makeAmoeba(D.pf_amoeba[i], PF_COLORS[i], 0.14, 0.68, 0.5, pfObjs);
+    const [cx,cy]=D.pf_centers[i];
+    const r=D.pf_radii[i];
+    makeCircleZone(cx,cy,r,PF_COLORS[i],0.13,0.68,0.5,pfObjs);
   });
+  // ── 미분류 원 ──
+  if(D.none_center&&D.none_r){
+    const [nx,nz]=D.none_center;
+    makeCircleZone(nx,nz,D.none_r,'#64748b',0.10,0.45,0.5,noneObjs);
+  }
 }
 
-async function buildCity(buildings, stCenters, pfCenters){
+function makeCircleZone(cx,cy,r,colorHex,fillOp,lineOp,yBase,objs){
+  const col=new THREE.Color(colorHex);
+  const fill=new THREE.Mesh(
+    new THREE.CircleGeometry(r,72),
+    new THREE.MeshLambertMaterial({color:col,transparent:true,opacity:fillOp,side:THREE.DoubleSide,depthWrite:false})
+  );
+  fill.rotation.x=-Math.PI/2; fill.position.set(cx,yBase,cy);
+  if(objs)objs.push(fill); scene.add(fill);
+  const ring=new THREE.Mesh(
+    new THREE.RingGeometry(r,r+3,72),
+    new THREE.MeshBasicMaterial({color:col,transparent:true,opacity:lineOp,side:THREE.DoubleSide,depthWrite:false})
+  );
+  ring.rotation.x=-Math.PI/2; ring.position.set(cx,yBase+0.4,cy);
+  if(objs)objs.push(ring); scene.add(ring);
+}
+
+async function buildCity(buildings, stCenters, pfCenters, D){
   const CHUNK=50;
   for(let i=0;i<buildings.length;i+=CHUNK){
     buildings.slice(i,i+CHUNK).forEach(b=>createBuilding(b));
     setT('빌딩 생성... '+Math.min(i+CHUNK,buildings.length)+' / '+buildings.length);
     await new Promise(r=>setTimeout(r,0));
   }
-  // ST 라벨
+  // ST 라벨 (원 중심에)
   ST_NAMES.forEach((n,i)=>{
     const sp=makeSprite(n, ST_COLORS[i], 46);
     sp.position.set(stCenters[i][0], 14, stCenters[i][1]);
@@ -263,8 +288,9 @@ async function buildCity(buildings, stCenters, pfCenters){
     labelObjs.push(sp); pfObjs.push(sp); scene.add(sp);
   });
   // 미분류 라벨
-  const ns=makeSprite('미 분 류', NONE_COLOR, 36);
-  ns.position.set(271,14,0); labelObjs.push(ns); noneObjs.push(ns); scene.add(ns);
+  const nc=D.none_center||[0,950];
+  const ns=makeSprite('미 분 류', '#64748b', 36);
+  ns.position.set(nc[0],14,nc[1]); labelObjs.push(ns); noneObjs.push(ns); scene.add(ns);
 }
 
 function createBuilding(b){
@@ -272,17 +298,19 @@ function createBuilding(b){
   group.position.set(b.x,0,b.z);
   group.userData=b;
   const baseHex=bldgColor(b);
-  const bw=b.bw, bh=b.bh;
-  const blocks=b.blocks;
-  const totBud=blocks.reduce((s,bl)=>s+bl.budget,0)||1;
+  // bs: 한 변 = (budget/1000)^(1/3) * 2  (10억=변2, 1조=변20)
+  const bs=b.bs||2;
+  const blocks=b.bl;
+  const totBud=blocks.reduce((s,bl)=>s+bl.b,0)||1;
   let yOff=0;
   blocks.forEach((bl,i)=>{
-    const h=Math.max(0.3,(bl.budget/totBud)*bh);
+    // 각 내역사업 블록의 높이 = 예산 비율 × 전체 높이(bs)
+    const h=Math.max(0.2,(bl.b/totBud)*bs);
     const t=blocks.length<=1?0:i/(blocks.length-1);
     const col=new THREE.Color(baseHex);
-    col.lerp(new THREE.Color(0xffffff), 0.30*t);
+    col.lerp(new THREE.Color(0xffffff), 0.28*t);
     const mesh=new THREE.Mesh(
-      new THREE.BoxGeometry(bw,h,bw),
+      new THREE.BoxGeometry(bs,h,bs),
       new THREE.MeshLambertMaterial({color:col})
     );
     mesh.position.y=yOff+h/2;
@@ -290,15 +318,16 @@ function createBuilding(b){
     mesh.userData={building:b};
     group.add(mesh); yOff+=h;
   });
+  // 외곽선
   const edgeCol=new THREE.Color(baseHex); edgeCol.multiplyScalar(0.6);
   const edgeMat=new THREE.LineBasicMaterial({color:edgeCol,transparent:true,opacity:0.5});
   const edge=new THREE.LineSegments(
-    new THREE.EdgesGeometry(new THREE.BoxGeometry(bw+0.3,bh+0.2,bw+0.3)), edgeMat
+    new THREE.EdgesGeometry(new THREE.BoxGeometry(bs+0.2,bs+0.2,bs+0.2)), edgeMat
   );
-  edge.position.y=bh/2; group.add(edge);
+  edge.position.y=bs/2; group.add(edge);
   scene.add(group);
   buildingMeshes.push({group,data:b,edgeMat,baseHex});
-  if(!b.has_st&&!b.has_pf) noneObjs.push(group);
+  if(!b.hs&&!b.hp) noneObjs.push(group);
 }
 
 function makeSprite(text,color,size){
@@ -319,10 +348,10 @@ function setupLegend(D){
   const stC=new Array(ST_NAMES.length).fill(0);
   const pfC=new Array(PF_NAMES.length).fill(0);
   D.buildings.forEach(b=>{
-    (b.st_idx||[]).forEach(i=>stC[i]++);
-    (b.pf_idx||[]).forEach(i=>pfC[i]++);
+    (b.si||[]).forEach(i=>stC[i]++);
+    (b.pi||[]).forEach(i=>pfC[i]++);
   });
-  const noneC=D.buildings.filter(b=>!b.has_st&&!b.has_pf).length;
+  const noneC=D.buildings.filter(b=>!b.hs&&!b.hp).length;
   const stEl=document.getElementById('leg-st');
   ST_NAMES.forEach((n,i)=>{
     const d=document.createElement('div'); d.className='leg-item';
@@ -337,7 +366,10 @@ function setupLegend(D){
   });
   document.getElementById('leg-nc').textContent=noneC;
   const sc=document.getElementById('leg-scale');
-  [{l:'1조 (변=30)',w:30,h:24,c:'#2563eb'},{l:'1000억 (변=14)',w:21,h:17,c:'#059669'},{l:'100억 (변=6.5)',w:13,h:10,c:'#7c3aed'},{l:'10억 (변=3)',w:7,h:6,c:'#94a3b8'}].forEach(s=>{
+  [{l:'1조원  (변 길이 20)',w:20,h:20,c:'#e63946'},
+   {l:'1000억 (변 길이 9.3)',w:9,h:9,c:'#2a9d8f'},
+   {l:'100억  (변 길이 4.3)',w:4,h:4,c:'#118ab2'},
+   {l:'10억   (변 길이 2)',  w:2,h:2,c:'#94a3b8'}].forEach(s=>{
     const r=document.createElement('div'); r.className='scale-row';
     r.innerHTML='<div class="scale-box" style="width:'+s.w+'px;height:'+s.h+'px;background:'+s.c+'"></div><div class="scale-text">'+s.l+'</div>';
     sc.appendChild(r);
@@ -345,9 +377,9 @@ function setupLegend(D){
 }
 
 function setupStats(buildings){
-  document.getElementById('s-b').textContent=(buildings.reduce((s,r)=>s+r.budget,0)/1000000).toFixed(2);
+  document.getElementById('s-b').textContent=(buildings.reduce((s,r)=>s+r.bud,0)/1000000).toFixed(2);
   document.getElementById('s-s').textContent=buildings.length.toLocaleString();
-  document.getElementById('s-d').textContent=buildings.reduce((s,r)=>s+r.blocks.length,0).toLocaleString();
+  document.getElementById('s-d').textContent=buildings.reduce((s,r)=>s+(r.bl||[]).length,0).toLocaleString();
 }
 
 function setupEvents(){
@@ -367,7 +399,7 @@ function setupEvents(){
     handleHover(e);
   });
   el.addEventListener('mouseup',()=>{orb.isRot=false;orb.isPan=false;});
-  el.addEventListener('wheel',e=>{orb.radius=Math.max(80,Math.min(2000,orb.radius*(1+e.deltaY*0.001)));updateCam();},{passive:true});
+  el.addEventListener('wheel',e=>{orb.radius=Math.max(80,Math.min(2500,orb.radius*(1+e.deltaY*0.001)));updateCam();},{passive:true});
   el.addEventListener('click',handleClick);
   el.addEventListener('contextmenu',e=>e.preventDefault());
 
@@ -410,7 +442,7 @@ function setupEvents(){
     } else if(e.touches.length===2){
       const dist=getTouchDist(e.touches[0],e.touches[1]);
       const scale=pinchDist0/dist;
-      orb.radius=Math.max(80,Math.min(3400,orb.radius*scale));
+      orb.radius=Math.max(80,Math.min(2500,orb.radius*scale));
       pinchDist0=dist;
       updateCam();
     }
@@ -435,7 +467,7 @@ function updateCam(){
   camera.position.set(tgt.x+radius*Math.sin(phi)*Math.sin(theta),tgt.y+radius*Math.cos(phi),tgt.z+radius*Math.sin(phi)*Math.cos(theta));
   camera.lookAt(tgt);
 }
-function resetCam(){orb.theta=0.3;orb.phi=0.44;orb.radius=500;orb.tgt.set(-25,0,-5);updateCam();}
+function resetCam(){orb.theta=0.2;orb.phi=0.38;orb.radius=700;orb.tgt.set(-15,0,-25);updateCam();}
 function getMeshes(){const m=[];buildingMeshes.forEach(bm=>bm.group.children.forEach(c=>{if(c.isMesh)m.push(c);}));return m;}
 
 function handleHover(e){
@@ -445,17 +477,17 @@ function handleHover(e){
   if(hits.length&&hits[0].object.userData.building){
     const b=hits[0].object.userData.building;
     if(hovered!==b.id){if(hovered)highlight(hovered,false);hovered=b.id;highlight(b.id,true);}
-    const stT=(b.st_idx||[]).map(i=>'<span class="tt-tag" style="background:'+ST_COLORS[i]+'22;color:'+ST_COLORS[i]+';border-color:'+ST_COLORS[i]+'66">'+ST_NAMES[i]+'</span>').join('');
-    const pfT=(b.pf_idx||[]).map(i=>'<span class="tt-tag" style="background:'+PF_COLORS[i]+'22;color:'+PF_COLORS[i]+';border-color:'+PF_COLORS[i]+'66">'+PF_NAMES[i]+'</span>').join('');
-    const bls=b.blocks.slice(0,4).map(bl=>'<div class="tt-br"><span class="tt-bn">'+bl.name+'</span><span class="tt-bv">'+fmtB(bl.budget)+'</span></div>').join('');
-    const more=b.blocks.length-4;
+    const stT=(b.si||[]).map(i=>'<span class="tt-tag" style="background:'+ST_COLORS[i]+'22;color:'+ST_COLORS[i]+';border-color:'+ST_COLORS[i]+'66">'+ST_NAMES[i]+'</span>').join('');
+    const pfT=(b.pi||[]).map(i=>'<span class="tt-tag" style="background:'+PF_COLORS[i]+'22;color:'+PF_COLORS[i]+';border-color:'+PF_COLORS[i]+'66">'+PF_NAMES[i]+'</span>').join('');
+    const bls=b.bl.slice(0,4).map(bl=>'<div class="tt-br"><span class="tt-bn">'+bl.n+'</span><span class="tt-bv">'+fmtB(bl.b)+'</span></div>').join('');
+    const more=b.bl.length-4;
     document.getElementById('tt-in').innerHTML=
-      '<div class="tt-name">'+(b.display_name||b.name)+'</div>'+
-      '<div class="tt-row"><span class="tt-k">부처</span><span class="tt-v">'+b.ministry+'</span></div>'+
-      '<div class="tt-row"><span class="tt-k">예산</span><span class="tt-v tt-hi">'+fmtB(b.budget)+'</span></div>'+
-      '<div class="tt-row"><span class="tt-k">내역사업</span><span class="tt-v">'+b.blocks.length+'개</span></div>'+
+      '<div class="tt-name">'+b.name+'</div>'+
+      '<div class="tt-row"><span class="tt-k">부처</span><span class="tt-v">'+b.min+'</span></div>'+
+      '<div class="tt-row"><span class="tt-k">예산</span><span class="tt-v tt-hi">'+fmtB(b.bud)+'</span></div>'+
+      '<div class="tt-row"><span class="tt-k">내역사업</span><span class="tt-v">'+b.bl.length+'개</span></div>'+
       '<div class="tt-tags">'+stT+pfT+((!stT&&!pfT)?'<span style="color:#94a3b8;font-size:10px">미분류</span>':'')+'</div>'+
-      (b.blocks.length>1?'<div class="tt-blocks"><div class="tt-bt">내역사업</div>'+bls+(more>0?'<div style="font-size:9px;color:#94a3b8">+ '+more+'개 더...</div>':'')+'</div>':'');
+      (b.bl.length>1?'<div class="tt-blocks"><div class="tt-bt">내역사업</div>'+bls+(more>0?'<div style="font-size:9px;color:#94a3b8">+ '+more+'개 더...</div>':'')+'</div>':'');
     tt.style.display='block';
     tt.style.left=Math.min(e.clientX+14,innerWidth-320)+'px';
     tt.style.top=Math.min(e.clientY-10,innerHeight-300)+'px';
@@ -475,22 +507,22 @@ function highlight(id,on){
   });
 }
 function showPanel(b){
-  document.getElementById('pn-title').textContent=b.display_name||b.name;
-  const maxBl=Math.max(...b.blocks.map(bl=>bl.budget));
+  document.getElementById('pn-title').textContent=b.name;
+  const maxBl=Math.max(...b.bl.map(bl=>bl.b));
   const baseHex=bldgColor(b);
-  const stT=(b.st_idx||[]).map(i=>'<span class="pn-tag" style="background:'+ST_COLORS[i]+'20;color:'+ST_COLORS[i]+';border-color:'+ST_COLORS[i]+'55">'+ST_NAMES[i]+'</span>').join('');
-  const pfT=(b.pf_idx||[]).map(i=>'<span class="pn-tag" style="background:'+PF_COLORS[i]+'20;color:'+PF_COLORS[i]+';border-color:'+PF_COLORS[i]+'55">'+PF_NAMES[i]+'</span>').join('');
-  const bls=b.blocks.map((bl,i)=>{
-    const t=b.blocks.length<=1?0:i/(b.blocks.length-1);
+  const stT=(b.si||[]).map(i=>'<span class="pn-tag" style="background:'+ST_COLORS[i]+'20;color:'+ST_COLORS[i]+';border-color:'+ST_COLORS[i]+'55">'+ST_NAMES[i]+'</span>').join('');
+  const pfT=(b.pi||[]).map(i=>'<span class="pn-tag" style="background:'+PF_COLORS[i]+'20;color:'+PF_COLORS[i]+';border-color:'+PF_COLORS[i]+'55">'+PF_NAMES[i]+'</span>').join('');
+  const bls=b.bl.map((bl,i)=>{
+    const t=b.bl.length<=1?0:i/(b.bl.length-1);
     const col=new THREE.Color(baseHex); col.lerp(new THREE.Color(0xffffff),0.30*t);
-    return '<div class="pn-brow"><div class="pn-bname" title="'+bl.name+'">'+bl.name+'</div><div class="pn-bwrap"><div class="pn-bbar" style="width:'+(maxBl>0?bl.budget/maxBl*100:0)+'%;background:#'+col.getHexString()+'"></div></div><div class="pn-bval">'+fmtB(bl.budget)+'</div></div>';
+    return '<div class="pn-brow"><div class="pn-bname" title="'+bl.n+'">'+bl.n+'</div><div class="pn-bwrap"><div class="pn-bbar" style="width:'+(maxBl>0?bl.b/maxBl*100:0)+'%;background:#'+col.getHexString()+'"></div></div><div class="pn-bval">'+fmtB(bl.b)+'</div></div>';
   }).join('');
   document.getElementById('pn-body').innerHTML=
-    '<div class="pn-row"><span class="pn-k">부처</span><span class="pn-v">'+b.ministry+'</span></div>'+
-    '<div class="pn-row"><span class="pn-k">전문위</span><span class="pn-v">'+b.committee+'</span></div>'+
-    '<div class="pn-row"><span class="pn-k">총 예산</span><span class="pn-v" style="color:#2563eb;font-size:12px">'+fmtB(b.budget)+'</span></div>'+
+    '<div class="pn-row"><span class="pn-k">부처</span><span class="pn-v">'+b.min+'</span></div>'+
+    '<div class="pn-row"><span class="pn-k">전문위</span><span class="pn-v">'+b.com+'</span></div>'+
+    '<div class="pn-row"><span class="pn-k">총 예산</span><span class="pn-v" style="color:#2563eb;font-size:12px">'+fmtB(b.bud)+'</span></div>'+
     '<div class="pn-tags">'+stT+pfT+((!stT&&!pfT)?'<span style="color:#94a3b8;font-size:11px">미분류</span>':'')+'</div>'+
-    (b.blocks.length>1?'<div class="pn-bsec"><div class="pn-bsec-t">내역사업 구성 ('+b.blocks.length+'개)</div>'+bls+'</div>':'');
+    (b.bl.length>1?'<div class="pn-bsec"><div class="pn-bsec-t">내역사업 구성 ('+b.bl.length+'개)</div>'+bls+'</div>':'');
   document.getElementById('panel').style.display='block';
 }
 function closePanel(){document.getElementById('panel').style.display='none';}

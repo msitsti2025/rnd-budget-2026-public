@@ -452,7 +452,7 @@ function handleHover(e){
     const bls=b.blocks.slice(0,4).map(bl=>'<div class="tt-br"><span class="tt-bn">'+bl.name+'</span><span class="tt-bv">'+fmtB(bl.budget)+'</span></div>').join('');
     const more=b.blocks.length-4;
     document.getElementById('tt-in').innerHTML=
-      '<div class="tt-name">'+b.name+'</div>'+
+      '<div class="tt-name">'+(b.display_name||b.name)+'</div>'+
       '<div class="tt-row"><span class="tt-k">부처</span><span class="tt-v">'+b.ministry+'</span></div>'+
       '<div class="tt-row"><span class="tt-k">예산</span><span class="tt-v tt-hi">'+fmtB(b.budget)+'</span></div>'+
       '<div class="tt-row"><span class="tt-k">내역사업</span><span class="tt-v">'+b.blocks.length+'개</span></div>'+
@@ -477,7 +477,7 @@ function highlight(id,on){
   });
 }
 function showPanel(b){
-  document.getElementById('pn-title').textContent=b.name;
+  document.getElementById('pn-title').textContent=b.display_name||b.name;
   const maxBl=Math.max(...b.blocks.map(bl=>bl.budget));
   const baseHex=bldgColor(b);
   const stT=(b.st_idx||[]).map(i=>'<span class="pn-tag" style="background:'+ST_COLORS[i]+'20;color:'+ST_COLORS[i]+';border-color:'+ST_COLORS[i]+'55">'+ST_NAMES[i]+'</span>').join('');

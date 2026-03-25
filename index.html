@@ -406,7 +406,6 @@ tr:hover td{background:#f8fbff}
       <table id="list-table">
         <thead><tr>
           <th class="nosort" style="width:30px"></th>
-          <th onclick="listSortBy('seq')" id="lt-seq">#</th>
           <th onclick="listSortBy('name')" id="lt-name">사업 구분명</th>
           <th onclick="listSortBy('ministry')" id="lt-ministry">부처</th>
           <th onclick="listSortBy('committee')" id="lt-committee">전문위</th>
@@ -1009,7 +1008,6 @@ function renderList(){
     const mainRow=document.createElement('tr');
     mainRow.innerHTML=`
       <td></td>
-      <td style="color:#94a3b8;font-size:11px">${r.seq}</td>
       <td class="td-name" title="${r.display_name||r.name}">${r.display_name||r.name}</td>
       <td><span class="chip chip-blue">${r.ministry}</span></td>
       <td><span class="chip chip-purple">${r.committee}</span></td>

@@ -624,7 +624,7 @@ function applyFilters(){
     if(filters.strategic && !r.strategic[filters.strategic]) return false;
     if(filters.policy    && !r.policy[filters.policy])       return false;
     if(q){
-      const inName=r.name.toLowerCase().includes(q);
+      const inName=(r.display_name||r.name).toLowerCase().includes(q);
       const inDet=r.details.some(d=>d.name.toLowerCase().includes(q));
       if(!inName&&!inDet) return false;
     }
@@ -1008,7 +1008,7 @@ function renderList(){
     const mainRow=document.createElement('tr');
     mainRow.innerHTML=`
       <td></td>
-      <td class="td-name" title="${r.display_name||r.name}">${r.display_name||r.name}</td>
+      <td class="td-name" title="${r.display_name}">${r.display_name}</td>
       <td><span class="chip chip-blue">${r.ministry}</span></td>
       <td><span class="chip chip-purple">${r.committee}</span></td>
       <td class="td-budget">${fmtM(r.budget)}</td>
@@ -1132,7 +1132,7 @@ function renderUnclassified(){
     mainRow.innerHTML=`
 <td></td>
       <td style="color:#94a3b8;font-size:11px">${start+i+1}</td>
-      <td class="td-name" title="${r.display_name||r.name}">${r.display_name||r.name}</td>
+      <td class="td-name" title="${r.display_name}">${r.display_name}</td>
       <td><span class="chip chip-blue">${r.ministry}</span></td>
       <td><span class="chip" style="background:${comCol}18;color:${comCol};border:1px solid ${comCol}44;font-size:11px;padding:2px 8px;border-radius:5px;font-weight:600">${r.committee}</span></td>
       <td class="td-budget">${fmtM(r.budget)}</td>

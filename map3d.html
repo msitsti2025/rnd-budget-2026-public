@@ -74,7 +74,7 @@ canvas{display:block}
   <div class="tb-icon">🔬</div>
   <div>
     <div class="tb-title">2026년 정부 R&D 예산 - 3D 맵</div>
-    <div class="tb-sub">중앙 스파이럴: 12대 전략기술 (원∝사업수, 교집합=겹침) &nbsp;|&nbsp; 빌딩 세 변=(예산/10억)^⅓ &nbsp;|&nbsp; 충돌없는 팩킹 배치 &nbsp;|&nbsp; 외곽: 정책분야 &nbsp;|&nbsp; 과학기술혁신본부</div>
+    <div class="tb-sub">중앙: 12대 전략기술 스파이럴(원∝사업수) &nbsp;|&nbsp; 주변: 8대 정책분야 &nbsp;|&nbsp; 빌딩 세 변=(예산/10억)^⅓ &nbsp;|&nbsp; 충돌없는 팩킹 배치 &nbsp;|&nbsp; 과학기술혁신본부</div>
   </div>
   <div class="tb-div"></div>
   <div class="tb-stat"><div class="tb-sv" id="s-b">-</div><div class="tb-sl">총예산(조)</div></div>
@@ -126,7 +126,7 @@ let buildingMeshes=[],labelObjs=[],pfObjs=[],noneObjs=[];
 let showLabels=true,showPF=true,showNone=true;
 const raycaster=new THREE.Raycaster(), mouse=new THREE.Vector2();
 let hovered=null;
-const orb={isRot:false,isPan:false,lx:0,ly:0,theta:0.4,phi:0.48,radius:1800,tgt:new THREE.Vector3()};
+const orb={isRot:false,isPan:false,lx:0,ly:0,theta:0.3,phi:0.44,radius:700,tgt:new THREE.Vector3()};
 
 async function init(){
   setT('데이터 로딩...');
@@ -175,8 +175,8 @@ function showErr(msg){
 function setupScene(){
   scene=new THREE.Scene();
   scene.background=new THREE.Color(0x0a0e1a);
-  scene.fog=new THREE.Fog(0x0a0e1a,2000,6000);
-  camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,1,10000);
+  scene.fog=new THREE.Fog(0x0a0e1a,800,3000);
+  camera=new THREE.PerspectiveCamera(42,innerWidth/innerHeight,1,5000);
   renderer=new THREE.WebGLRenderer({antialias:true});
   renderer.setSize(innerWidth,innerHeight);
   renderer.setPixelRatio(Math.min(devicePixelRatio,1.5));
@@ -196,9 +196,9 @@ function setupLights(){
   const sun=new THREE.DirectionalLight(0xffffff,1.6);
   sun.position.set(700,1000,500); sun.castShadow=true;
   sun.shadow.mapSize.set(2048,2048);
-  sun.shadow.camera.left=-2200; sun.shadow.camera.right=2200;
-  sun.shadow.camera.top=2200;   sun.shadow.camera.bottom=-2200;
-  sun.shadow.camera.far=6000;
+  sun.shadow.camera.left=-1000; sun.shadow.camera.right=1000;
+  sun.shadow.camera.top=1000;   sun.shadow.camera.bottom=-1000;
+  sun.shadow.camera.far=3000;
   scene.add(sun);
   const fill=new THREE.DirectionalLight(0x3b5a8a,0.7);
   fill.position.set(-400,500,-300);
@@ -229,10 +229,10 @@ function makeAmoeba(pts, colorHex, fillOp, lineOp, yBase, objs){
 }
 
 function setupGround(D){
-  const gm=new THREE.Mesh(new THREE.PlaneGeometry(5000,5000),
+  const gm=new THREE.Mesh(new THREE.PlaneGeometry(2400,2400),
     new THREE.MeshLambertMaterial({color:0x080d18}));
   gm.rotation.x=-Math.PI/2; gm.receiveShadow=true; scene.add(gm);
-  const gh=new THREE.GridHelper(5000,200,0x131d2e,0x131d2e);
+  const gh=new THREE.GridHelper(2400,120,0x131d2e,0x131d2e);
   gh.position.y=0.2; scene.add(gh);
 
   // ST 아메바 (인덱스 순서)
@@ -266,7 +266,7 @@ async function buildCity(buildings, stCenters, pfCenters){
   });
   // 미분류 라벨
   const ns=makeSprite('미 분 류', NONE_COLOR, 36);
-  ns.position.set(25,14,1400); labelObjs.push(ns); noneObjs.push(ns); scene.add(ns);
+  ns.position.set(-213,14,-530); labelObjs.push(ns); noneObjs.push(ns); scene.add(ns);
 }
 
 function createBuilding(b){
@@ -369,7 +369,7 @@ function setupEvents(){
     handleHover(e);
   });
   el.addEventListener('mouseup',()=>{orb.isRot=false;orb.isPan=false;});
-  el.addEventListener('wheel',e=>{orb.radius=Math.max(80,Math.min(6000,orb.radius*(1+e.deltaY*0.001)));updateCam();},{passive:true});
+  el.addEventListener('wheel',e=>{orb.radius=Math.max(80,Math.min(3000,orb.radius*(1+e.deltaY*0.001)));updateCam();},{passive:true});
   el.addEventListener('click',handleClick);
   el.addEventListener('contextmenu',e=>e.preventDefault());
 
@@ -437,7 +437,7 @@ function updateCam(){
   camera.position.set(tgt.x+radius*Math.sin(phi)*Math.sin(theta),tgt.y+radius*Math.cos(phi),tgt.z+radius*Math.sin(phi)*Math.cos(theta));
   camera.lookAt(tgt);
 }
-function resetCam(){orb.theta=0.4;orb.phi=0.48;orb.radius=1800;orb.tgt.set(25,0,500);updateCam();}
+function resetCam(){orb.theta=0.3;orb.phi=0.44;orb.radius=700;orb.tgt.set(0,0,-100);updateCam();}
 function getMeshes(){const m=[];buildingMeshes.forEach(bm=>bm.group.children.forEach(c=>{if(c.isMesh)m.push(c);}));return m;}
 
 function handleHover(e){

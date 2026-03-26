@@ -226,10 +226,7 @@ tr:hover td{background:#f8fbff}
 <div class="main-layout">
   <!-- SIDEBAR -->
   <aside class="sidebar">
-    <div class="filter-card">
-      <div class="filter-title">사업명 검색</div>
-      <input type="text" class="search-box" id="search-input" placeholder="세부 또는 내역사업명 검색...">
-    </div>
+
     <div class="filter-card">
       <div class="filter-title">전문위원회</div>
       <div class="tag-list" id="committee-tags"></div>
@@ -585,7 +582,6 @@ function buildSidebar(){
   pfEl.innerHTML=`<button class="tag all-tag active" onclick="setFilter('policy','')">전체</button>`;
   PF_NAMES.forEach(n=>pfEl.innerHTML+=`<button class="tag" onclick="setFilter('policy','${n}')">${n}</button>`);
 
-  document.getElementById('search-input').addEventListener('input',e=>{filters.search=e.target.value;applyFilters();});
 }
 
 function setFilter(key,val){
@@ -602,7 +598,6 @@ function setFilter(key,val){
 
 function resetFilters(){
   filters={search:'',committee:'',ministry:'',strategic:'',policy:''};
-  document.getElementById('search-input').value='';
   document.getElementById('ministry-select').value='';
   document.querySelectorAll('.tag').forEach(t=>t.classList.toggle('active',t.classList.contains('all-tag')));
   listPage=1; applyFilters();
